@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Polltergeist</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<%= flash[:errors].join("<BR>").html_safe if flash[:errors] %>
+<%= "<BR>".html_safe if flash[:errors] %>
+<%= flash[:messages].join("<BR>").html_safe if flash[:messages] %>
+<%= "<BR>".html_safe if flash[:messages] %>
+
+<% if signed_in? %>
+  Hello, <%= current_user.username %>
+  <%= button_to "Sign Out", session_url, method: :delete %>
+<% else %>
+  <%= link_to "Sign In", new_session_url, method: :get %>
+  <%= link_to "Sign Up", new_user_url, method: :get %>
+<% end %>
+
+<%= yield %>
+
+</body>
+</html>

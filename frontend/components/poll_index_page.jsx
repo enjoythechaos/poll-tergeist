@@ -26,7 +26,7 @@ var PollIndexPage = React.createClass({
   render: function() {
     var pollGroupContent = [];
     for(var i = 0; i < this.state.pollGroups.length; i++) {
-      var newPollGroup = <PollGroup pollGroupId={this.state.pollGroups[i][0].poll_group_id} isChecked={false} polls={this.state.pollGroups[i]}/>;
+      var newPollGroup = <PollGroup showChildren={true} pollGroupId={this.state.pollGroups[i][0].poll_group_id} isChecked={false} polls={this.state.pollGroups[i]}/>;
       pollGroupContent.push(newPollGroup);
     }
 

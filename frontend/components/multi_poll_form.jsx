@@ -7,13 +7,13 @@ var MultiPollForm = React.createClass({
   },
 
   _createAll: function() {
-
+    debugger;
   },
 
   _addPollForm: function(e) {
     var newPollForms = this.state.pollForms;
-    var questionRef = "question-" + (this.state.pollForms.length + 1);
-    newPollForms.push(<PollForm questionRef={questionRef} questionText={e.target.value}/>);
+    var questionRef = "question" + (this.state.pollForms.length + 1);
+    newPollForms.push(<PollForm ref={questionRef} questionText={e.target.value}/>);
     this.setState({pollForms: newPollForms, newQuestionText: ""});
   },
 

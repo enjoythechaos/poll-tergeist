@@ -24,6 +24,46 @@ var ApiUtil = {
       ApiActions.fetchPollAndAnswerChoices(pollEditData);
     });
   },
+
+  deleteAnswerChoice: function(answerChoiceId) {
+    $.ajax({
+      url: "api/answer_choices/" + answerChoiceId,
+      method: "DELETE",
+      success: function(answer_choice) {
+        this.fetchPollAndAnswerChoices(parseInt(answer_choice.poll_id));
+      }.bind(this)
+    });
+  },
+
+  addAnswerChoice: function(pollId) {
+    $.post("api/polls/" + pollId + "/answer_choices", {}, function(answer_choice) {
+        this.fetchPollAndAnswerChoices(parseInt(answer_choice.poll_id));
+    }.bind(this));
+  },
+
+  updatePollAndAnswerChoices: function(pollEditData) {
+    var poll = pollEditData.pollEditData.poll;
+    var pollId = poll.id;
+    var answerChoices = pollEditData.pollEditData.answerChoices;
+    var that = this;
+    $.ajax({
+      url: "api/answer_choices/update_batch",
+      data: {answerChoices: answerChoices},
+      type: "PATCH",
+      complete: function() {
+        //alert("Got into the first success function");
+        $.ajax({
+          url: "api/polls/" + pollId,
+          type: "PATCH",
+          data: {poll: poll},
+          complete: function(){
+            //alert("Got into the second success function!");
+            that.fetchPollAndAnswerChoices(pollId);
+          }
+        });
+      }
+    });
+  }
 };
 
 window.ApiUtil = ApiUtil;

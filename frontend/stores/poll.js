@@ -6,6 +6,7 @@ var PollConstants = require('../constants/poll_constants');
 var _checkedPolls = {};
 var _poll = {};
 var _answerChoices = [];
+var _pollEditData = {};
 
 PollStore.__onDispatch = function(payload) {
   switch (payload.actionType) {
@@ -28,8 +29,9 @@ PollStore.__onDispatch = function(payload) {
       break;
     case (PollConstants.RECEIVE_EDIT_POLL_DATA):
       console.log("Got to PollStore.__onDispatch case PollConstants.RECEIVE_EDIT_POLL_DATA");
-      _poll = payload.pollEditData.pollEditData.poll.question;
-      _answerChoices = payload.pollEditData.pollEditData.answerChoices;
+      // _poll = payload.pollEditData.pollEditData.poll.question;
+      // _answerChoices = payload.pollEditData.pollEditData.answerChoices;
+      _pollEditData = payload.pollEditData;
       console.log(payload);
       this.__emitChange();
       break;
@@ -50,6 +52,10 @@ PollStore.getPoll = function() {
 
 PollStore.getAnswerChoices = function() {
   return _answerChoices;
+};
+
+PollStore.getPollEditData = function() {
+  return _pollEditData;
 };
 
 window.PollStore = PollStore;

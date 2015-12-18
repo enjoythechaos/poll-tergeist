@@ -4,13 +4,12 @@ var PollStore = require('../stores/poll');
 
 var PollEdit = React.createClass({
   getInitialState: function() {
-    return ({question: "", answerChoices: []});
+    return ({pollEditData: {}});
+    //return ({pollEditData: PollStore.getPollEditData()});
   },
 
   _onChange: function() {
-    var question = PollStore.getPoll();
-    var answerChoices = PollStore.getAnswerChoices();
-    this.setState({question: PollStore.getPoll(), answerChoices: PollStore.getAnswerChoices().map(function(ac){return ac.body;})});
+    this.setState({pollEditData: PollStore.getPollEditData()});
   },
 
   componentDidMount: function() {
@@ -19,36 +18,43 @@ var PollEdit = React.createClass({
   },
 
   _updateAnswerChoice: function(i, e) {
-    var newAnswerChoices = this.state.answerChoices;
-    newAnswerChoices[i] = e.target.value;
-    this.setState({answerChoices: newAnswerChoices});
+    var newPollEditData = this.state.pollEditData;
+    newPollEditData.pollEditData.answerChoices[i].body = e.target.value;
+    this.setState({pollEditData: newPollEditData});
   },
 
-  _deleteAnswerChoice: function(i, e) {
+  _deleteAnswerChoice: function(answerChoiceId, e) {
     e.preventDefault();
-    var newAnswerChoices = this.state.answerChoices;
-    newAnswerChoices.splice(i, 1);
-    this.setState({answerChoices: newAnswerChoices});
+    this._updatePoll();
+    ApiUtil.deleteAnswerChoice(answerChoiceId);
   },
 
   _addAnswerChoice: function(e) {
     e.preventDefault();
-    var newAnswerChoices = this.state.answerChoices;
-    newAnswerChoices.push("");
-    this.setState({answerChoices: newAnswerChoices});
+    var pollId = this.state.pollEditData.pollEditData.poll.id;
+    this._updatePoll();
+    ApiUtil.addAnswerChoice(pollId);
   },
 
   _updatePoll: function() {
-    alert("This will eventually update the poll.");
+    ApiUtil.updatePollAndAnswerChoices(this.state.pollEditData);
+  },
+
+  _updatePollQuestion: function(e) {
+    this.state.pollEditData.pollEditData.poll.question = e.target.value;
+    this.setState({pollEditData: this.state.pollEditData});
   },
 
   render: function() {
+    if (this.state.pollEditData.pollEditData === undefined) {
+      return (<div></div>);
+    }
     var answerChoiceContent = [];
-    for(var i = 0; i < this.state.answerChoices.length; i++) {
+    for(var i = 0; i < this.state.pollEditData.pollEditData.answerChoices.length; i++) {
       answerChoiceContent.push(
         <div>
-          <input type='text' onChange={this._updateAnswerChoice.bind(null, i)} value={this.state.answerChoices[i]}></input>
-          <button type='submit' onClick={this._deleteAnswerChoice.bind(null, i)}>Delete Answer Choice</button>
+          <input type='text' onChange={this._updateAnswerChoice.bind(null, i)} value={this.state.pollEditData.pollEditData.answerChoices[i].body}></input>
+          <button type='submit' onClick={this._deleteAnswerChoice.bind(null, this.state.pollEditData.pollEditData.answerChoices[i].id)}>Delete Answer Choice</button>
         </div>
       );
     }
@@ -56,7 +62,7 @@ var PollEdit = React.createClass({
       <div>
         <label>
           Question:
-          <input type='text' onChange={this._updatePollQuestion} value={this.state.question}></input>
+          <input type='text' onChange={this._updatePollQuestion} value={this.state.pollEditData.pollEditData.poll.question}></input>
         </label>
         {answerChoiceContent}
         <br></br>

@@ -4,7 +4,8 @@ var ApiUtil = require('../util/api_util');
 
 var Poll = React.createClass({
   getInitialState: function() {
-    return {checked: PollStore.isChecked(this.props.poll.id)};
+    return {checked: false};
+    //return {checked: PollStore.isChecked(this.props.poll.id)};
   },
 
   _onPollStoreUpdate: function() {

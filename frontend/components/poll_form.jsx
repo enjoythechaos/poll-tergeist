@@ -15,11 +15,16 @@ var PollForm = React.createClass({
     this.setState({answerChoices: newAnswerChoices});
   },
 
+  // _getAnswerChoices: function() {
+  //   console.log(this.state);
+  //   return this.state.answerChoices;
+  // },
+
   _addAnswerChoice: function(e) {
     e.preventDefault();
     var newAnswerChoices = this.state.answerChoices;
     newAnswerChoices.push("");
-    this.setState({answerChoiuces: newAnswerChoices});
+    this.setState({answerChoices: newAnswerChoices});
   },
 
   _deleteAnswerChoice: function(i, e) {

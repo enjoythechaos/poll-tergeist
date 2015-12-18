@@ -5,7 +5,7 @@ var PollStore = require('../stores/poll');
 
 var PollGroup = React.createClass({
   getInitialState: function() {
-    return {checked: false, pollIds: []};
+    return {isChecked: false, pollIds: [], showChildren: false};
   },
 
   componentDidMount: function() {
@@ -13,7 +13,7 @@ var PollGroup = React.createClass({
     for(var i = 0; i < this.props.polls.length; i++) {
       pollIds.push(this.props.polls[i].id);
     }
-    this.setState({pollIds: pollIds});
+    this.setState({pollIds: pollIds, showChildren: this.props.showChildren, checked: this.state.isChecked});
   },
 
   _onClick: function(e) {
@@ -28,9 +28,11 @@ var PollGroup = React.createClass({
 
   render: function() {
     var childPolls = [];
-    for (var i = 0; i < this.props.polls.length; i++) {
-      var newChildPoll = <Poll poll={this.props.polls[i]} isChecked={false}/>;
-      childPolls.push(newChildPoll);
+    if (this.state.showChildren) {
+      for (var i = 0; i < this.props.polls.length; i++) {
+        var newChildPoll = <Poll poll={this.props.polls[i]} isChecked={false}/>;
+        childPolls.push(newChildPoll);
+      }
     }
 
     return (

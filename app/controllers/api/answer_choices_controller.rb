@@ -9,6 +9,14 @@ class Api::AnswerChoicesController < ApplicationController
     @answer_choice.save
   end
 
+  def create_batch
+    answerChoices = params[:answerChoices]
+    answerChoices.each do |index, answer_choice|
+      @answer_choice = AnswerChoice.create({poll_id: answer_choice.poll_id, body: answer_choice.answerText})
+    end
+    render text: "ok"
+  end
+
   def update_batch
     answer_choices = params[:answerChoices]
     answer_choices.each do |index, answer_choice|

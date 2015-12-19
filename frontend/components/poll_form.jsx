@@ -1,68 +1,43 @@
 var React = require('react');
 
 var PollForm = React.createClass({
-  getInitialState: function() {
-    return {questionText: "", answerChoices: ["", ""]};
-  },
-
-  _updateQuestionText: function(e) {
-    this.setState({questionText: e.target.value});
-  },
-
-  _updateAnswerChoice: function(i, e) {
-    var newAnswerChoices = this.state.answerChoices;
-    newAnswerChoices[i] = e.target.value;
-    this.setState({answerChoices: newAnswerChoices});
-  },
-
-  // _getAnswerChoices: function() {
-  //   console.log(this.state);
-  //   return this.state.answerChoices;
-  // },
-
-  _addAnswerChoice: function(e) {
-    e.preventDefault();
-    var newAnswerChoices = this.state.answerChoices;
-    newAnswerChoices.push("");
-    this.setState({answerChoices: newAnswerChoices});
-  },
-
-  _deleteAnswerChoice: function(i, e) {
-    e.preventDefault();
-    var newAnswerChoices = this.state.answerChoices;
-    newAnswerChoices.splice(i, 1);
-    this.setState({answerChoices: newAnswerChoices});
+  generateAnswerChoices: function() {
+    var answerChoices = [];
+    for(var answerChoiceId in this.props.answerChoices) {
+      if (this.props.answerChoices.hasOwnProperty(answerChoiceId) && answerChoiceId !== 'nextId') {
+        answerChoices.push(
+          <div>
+            <label>
+              Answer Choice:
+              <input type='text'
+                     onChange={this.props._updateAnswerChoice.bind(null, answerChoiceId)}
+                     value={this.props.answerChoices[answerChoiceId].answerText}
+              ></input>
+            </label>
+            <button type='submit' onClick={this.props._deleteAnswerChoice.bind(null, answerChoiceId)}>Delete</button>
+          </div>
+        );
+      }
+    }
+    return answerChoices;
   },
 
   _fixCursor: function(e) {
-    if (!this.alreadyFixed) {
-      this.setState({questionText: this.props.questionText});
-      this.alreadyFixed = true;
-    }
+    e.target.value = e.target.value;
   },
 
   render: function() {
-    var answerChoices = [];
-    for(var i = 0; i < this.state.answerChoices.length; i++) {
-      answerChoices.push(
-        <div>
-          <label>
-            Answer Choice:
-            <input type='text' onChange={this._updateAnswerChoice.bind(null, i)} value={this.state.answerChoices[i]}></input>
-          </label>
-          <button type='submit' onClick={this._deleteAnswerChoice.bind(null, i)}>Delete</button>
-        </div>
-      );
-    }
+    var answerChoices = this.generateAnswerChoices();
     return(
       <div>
         <label>
           Poll Question:
-          <input type='text' ref={this.props.questionRef} onChange={this._updateQuestionText} value={this.state.questionText} autoFocus onFocus={this._fixCursor}></input>
+          <input type='text' onChange={this.props._updateQuestionText} value={this.props.questionText} autoFocus onFocus={this._fixCursor}></input>
+          <button type='submit' onClick={this.props._deletePollForm}>Delete Poll</button>
         </label>
         {answerChoices}
         <br></br>
-        <button type='submit' onClick={this._addAnswerChoice}>Add Answer</button>
+        <button type='submit' onClick={this.props._addAnswerChoice}>Add Answer</button>
       </div>
     );
   }

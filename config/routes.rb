@@ -3,7 +3,11 @@ Rails.application.routes.draw do
 
   resources :users, only: [:new, :create, :destroy] do
     namespace :api, defaults: {format: :json} do
-      resources :polls, only: [:index]
+      resources :polls, only: [:index, :create] do
+        collection do
+          put :create_batch
+        end
+      end
     end
   end
 
@@ -13,10 +17,13 @@ Rails.application.routes.draw do
     resources :answer_choices, only: [:destroy] do
       collection do
         patch :update_batch
+        put :create_batch
       end
     end
+
     resources :polls, only: [:show, :update] do
       resources :answer_choices, only: [:index, :create]
     end
   end
+
 end

@@ -7,6 +7,29 @@ class Api::PollsController < ApplicationController
     @poll = Poll.includes(:answer_choices).find_by(id: params[:id])
   end
 
+  def create
+    @poll = Poll.new({question: params[:poll][:questionText], author_id: params[:user_id]})
+    @poll.save
+  end
+
+  def create_batch
+    params[:batch].each do |key, poll_form|
+      if key.match(/[0-9]+/)
+        puts "**************** #{key} ********************"
+        @poll = Poll.new({question: poll_form[:questionText], author_id: params[:user_id]})
+        @poll.save
+        poll_id = @poll.id
+        poll_form[:answerChoices].each do |key, answer_choice|
+          if key.match(/[0-9]+/)
+            @answer_choice = AnswerChoice.new({poll_id: poll_id, body: answer_choice[:answerText], letter: "Z"})
+            @answer_choice.save
+          end
+        end
+      end
+    end
+    render text: "200 OK"
+  end
+
   def update
     id = params[:poll][:id]
     @poll = Poll.find(id)

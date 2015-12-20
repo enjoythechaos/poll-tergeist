@@ -15,7 +15,9 @@ var MultiPollForm = React.createClass({
 
   _createAll: function(e) {
     e.preventDefault();
-    PollUtil.createBatch(this.state.pollFormData);
+    PollUtil.createBatch(this.state.pollFormData, function(){
+      this.props.history.pushState(null, "/users/" + this.props.params.userId + "/polls");
+    }.bind(this));
   },
 
   _addPollForm: function(e) {

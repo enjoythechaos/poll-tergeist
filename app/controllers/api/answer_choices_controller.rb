@@ -23,7 +23,6 @@ class Api::AnswerChoicesController < ApplicationController
       id = answer_choice[:id]
       @answer_choice = AnswerChoice.find(id) rescue nil
       if @answer_choice
-        # Happy Case: the answer choice was there and can be updated.
         @answer_choice.poll_id = answer_choice[:poll_id].to_i
         @answer_choice.letter = answer_choice[:letter]
         @answer_choice.body = answer_choice[:body]

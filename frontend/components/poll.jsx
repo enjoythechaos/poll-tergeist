@@ -2,10 +2,17 @@ var React = require('react');
 var PollStore = require('../stores/poll');
 var ApiUtil = require('../util/api_util');
 
+var warn = console.warn;
+console.warn = function(warning) {
+  if (/(setState)/.test(warning)) {
+    throw new Error(warning);
+  }
+  warn.apply(console, arguments);
+};
+
 var Poll = React.createClass({
   getInitialState: function() {
     return {checked: false};
-    //return {checked: PollStore.isChecked(this.props.poll.id)};
   },
 
   _onPollStoreUpdate: function() {
@@ -22,9 +29,13 @@ var Poll = React.createClass({
 
   componentDidMount: function() {
     PollStore.addListener(this._onPollStoreUpdate);
+    this.setState({checked: PollStore.isChecked(this.props.poll.id)});
   },
 
   render: function() {
+    if (!this.props.visible) {
+      return (<div></div>);
+    }
     return (
       <div>
         <div>

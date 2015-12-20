@@ -12,6 +12,10 @@ var ApiUtil = {
     ApiActions.checkPolls(pollIds);
   },
 
+  uncheckAll: function() {
+    ApiActions.uncheckAll();
+  },
+
   uncheckPolls: function(pollIds) {
     console.log("Got into ApiUtil.uncheckPolls");
     ApiActions.uncheckPolls(pollIds);
@@ -29,9 +33,29 @@ var ApiUtil = {
     $.ajax({
       url: "api/answer_choices/" + answerChoiceId,
       method: "DELETE",
-      success: function(answer_choice) {
+      complete: function(answer_choice) {
         this.fetchPollAndAnswerChoices(parseInt(answer_choice.poll_id));
       }.bind(this)
+    });
+  },
+
+  group: function(checkedPolls, callBack) {
+    this.uncheckAll();
+    $.ajax({
+      url: "api/polls/group",
+      data: {polls: checkedPolls},
+      method: "PATCH",
+      complete: callBack
+    });
+  },
+
+  ungroup: function(checkedPolls, callBack) {
+    this.uncheckAll();
+    $.ajax({
+      url: "api/polls/ungroup",
+      data: {polls: checkedPolls},
+      method: "POST",
+      complete: callBack
     });
   },
 

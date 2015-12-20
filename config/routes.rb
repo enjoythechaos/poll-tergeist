@@ -22,6 +22,10 @@ Rails.application.routes.draw do
     end
 
     resources :polls, only: [:show, :update] do
+      collection do
+        patch :group
+        post :ungroup
+      end
       resources :answer_choices, only: [:index, :create]
     end
   end

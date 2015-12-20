@@ -10,6 +10,12 @@ var ApiActions = {
     });
   },
 
+  uncheckAll: function() {
+    AppDispatcher.dispatch({
+      actionType: PollConstants.UNCHECK_ALL
+    });
+  },
+
   checkPolls: function(pollIds) {
     console.log("Got Into ApiActions.checkPolls");
     AppDispatcher.dispatch({

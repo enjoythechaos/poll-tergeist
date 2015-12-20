@@ -3,7 +3,7 @@ var AppDispatcher = require('../dispatcher/dispatcher');
 var PollGroupStore = new Store(AppDispatcher);
 var PollGroupConstants = require('../constants/poll_group_constants');
 
-var _pollGroups = [];
+var _pollGroups = {};
 
 PollGroupStore.__onDispatch = function(payload) {
   switch (payload.actionType) {
@@ -19,11 +19,7 @@ PollGroupStore.getPollGroups = function() {
 };
 
 PollGroupStore.receivePollGroups = function(pollGroupsObject) {
-  var newPollGroups = [];
-  for (var i = 0; i < pollGroupsObject.pollGroups.length; i++) {
-    newPollGroups.push(pollGroupsObject.pollGroups[i].polls);
-  }
-  _pollGroups = newPollGroups;
+  _pollGroups = pollGroupsObject;
 };
 
 window.PollGroupStore = PollGroupStore;

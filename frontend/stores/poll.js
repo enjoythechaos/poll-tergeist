@@ -32,7 +32,12 @@ PollStore.__onDispatch = function(payload) {
       // _poll = payload.pollEditData.pollEditData.poll.question;
       // _answerChoices = payload.pollEditData.pollEditData.answerChoices;
       _pollEditData = payload.pollEditData;
+      _checkedPolls = {};
       console.log(payload);
+      this.__emitChange();
+      break;
+    case (PollConstants.UNCHECK_ALL):
+      _checkedPolls = {};
       this.__emitChange();
       break;
   }

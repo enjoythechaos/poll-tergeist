@@ -1,6 +1,6 @@
 class Api::PollsController < ApplicationController
   def index
-    @polls = Poll.where(author_id: params[:user_id])
+    @poll_groups = PollGroup.includes(:polls).where(author_id: params[:user_id])
   end
 
   def show
@@ -12,11 +12,53 @@ class Api::PollsController < ApplicationController
     @poll.save
   end
 
+  def ungroup
+    poll_ids = params[:polls].keys
+    if !poll_ids.empty?
+      first_poll = Poll.find(poll_ids[0])
+      author_id = first_poll.author_id
+      poll_group_id = PollGroup.where(title: "Ungrouped").where(author_id: author_id)[0].id
+      poll_ids.each do |poll_id|
+        poll = Poll.find(poll_id)
+        old_poll_group_id = poll.poll_group_id
+        poll.poll_group_id = poll_group_id
+        poll.save
+        pg = PollGroup.find(old_poll_group_id)
+        if pg.title != 'Ungrouped' && pg.polls.empty?
+          pg.destroy
+        end
+      end
+    end
+    render text: "200 OK"
+  end
+
+  def group
+    poll_ids = params[:polls].keys
+    if !poll_ids.empty?
+      first_poll = Poll.find(poll_ids[0])
+      author_id = first_poll.author_id
+      new_poll_group = PollGroup.new({title: "New Group", author_id: author_id})
+      new_poll_group.save
+      poll_group_id = new_poll_group.id
+      poll_ids.each do |poll_id|
+        poll = Poll.find(poll_id)
+        old_poll_group_id = poll.poll_group_id
+        poll.poll_group_id = poll_group_id
+        poll.save
+        pg = PollGroup.find(old_poll_group_id)
+        if pg.title != 'Ungrouped' && pg.polls.empty?
+          pg.destroy
+        end
+      end
+    end
+    render text: "200 OK"
+  end
+
   def create_batch
+    poll_group_id = PollGroup.where(title: "Ungrouped").where(author_id: params[:user_id])[0].id
     params[:batch].each do |key, poll_form|
       if key.match(/[0-9]+/)
-        puts "**************** #{key} ********************"
-        @poll = Poll.new({question: poll_form[:questionText], author_id: params[:user_id]})
+        @poll = Poll.new({question: poll_form[:questionText], author_id: params[:user_id], poll_group_id: poll_group_id})
         @poll.save
         poll_id = @poll.id
         poll_form[:answerChoices].each do |key, answer_choice|

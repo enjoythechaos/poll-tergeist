@@ -2,9 +2,9 @@ var React = require('react');
 
 var SideBar = React.createClass({
   _toCreatePoll: function() {
-    alert("You just clicked the button to create a poll");
+    this.props._goToNewPolls();
   },
-  
+
   render: function() {
     return (
       <div>

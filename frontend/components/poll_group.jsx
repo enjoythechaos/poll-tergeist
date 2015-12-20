@@ -5,7 +5,7 @@ var PollStore = require('../stores/poll');
 
 var PollGroup = React.createClass({
   getInitialState: function() {
-    return {isChecked: false, pollIds: [], showChildren: false};
+    return {isChecked: false, pollIds: [], showChildren: true};
   },
 
   componentDidMount: function() {
@@ -13,7 +13,7 @@ var PollGroup = React.createClass({
     for(var i = 0; i < this.props.polls.length; i++) {
       pollIds.push(this.props.polls[i].id);
     }
-    this.setState({pollIds: pollIds, showChildren: this.props.showChildren, checked: this.state.isChecked});
+    this.setState({pollIds: pollIds, showChildren: true, checked: false});
   },
 
   _onClick: function(e) {
@@ -26,20 +26,27 @@ var PollGroup = React.createClass({
     this.setState({checked: !this.state.checked});
   },
 
+  _toggleShow: function(e) {
+    e.preventDefault();
+    this.setState({showChildren: !this.state.showChildren});
+  },
+
   render: function() {
     var childPolls = [];
-    if (this.state.showChildren) {
-      for (var i = 0; i < this.props.polls.length; i++) {
-        var newChildPoll = <Poll poll={this.props.polls[i]} isChecked={false}/>;
-        childPolls.push(newChildPoll);
-      }
+    for (var i = 0; i < this.props.polls.length; i++) {
+      var newChildPoll = <Poll poll={this.props.polls[i]} isChecked={false} visible={this.state.showChildren}/>;
+      childPolls.push(newChildPoll);
     }
+
+    var showHideText = this.state.showChildren ? "Hide" : "Show";
+
+    //<input type='checkbox' checked={this.state.checked} onClick={this._onClick}></input>
 
     return (
       <div>
         <div>
-          <input type='checkbox' checked={this.state.checked} onClick={this._onClick}></input>
-          This is a poll group!
+          <button type='submit' onClick={this._toggleShow}>{showHideText}</button>
+          {this.props.title}
         </div>
         <div>
           {childPolls}

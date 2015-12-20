@@ -28,8 +28,12 @@ var Poll = React.createClass({
   },
 
   componentDidMount: function() {
-    PollStore.addListener(this._onPollStoreUpdate);
+    this.listenerToken = PollStore.addListener(this._onPollStoreUpdate);
     this.setState({checked: PollStore.isChecked(this.props.poll.id)});
+  },
+
+  componentWillUnmount: function() {
+    this.listenerToken.remove();
   },
 
   render: function() {

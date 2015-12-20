@@ -5,7 +5,7 @@ var PollStore = require('../stores/poll');
 
 var PollGroup = React.createClass({
   getInitialState: function() {
-    return {isChecked: false, pollIds: [], showChildren: true};
+    return {isChecked: false, pollIds: [], showChildren: true, editTitle: false, title: this.props.title};
   },
 
   componentDidMount: function() {
@@ -13,7 +13,7 @@ var PollGroup = React.createClass({
     for(var i = 0; i < this.props.polls.length; i++) {
       pollIds.push(this.props.polls[i].id);
     }
-    this.setState({pollIds: pollIds, showChildren: true, checked: false});
+    this.setState({isChecked: false, pollIds: [], showChildren: true, editTitle: false, title: this.props.title});
   },
 
   _onClick: function(e) {
@@ -26,9 +26,35 @@ var PollGroup = React.createClass({
     this.setState({checked: !this.state.checked});
   },
 
+  _saveTitle: function(e) {
+    this.setState({editTitle: false});
+    ApiUtil.saveTitle(this.props.pollGroupId, this.state.title);
+  },
+
   _toggleShow: function(e) {
     e.preventDefault();
     this.setState({showChildren: !this.state.showChildren});
+  },
+
+  _updateTitle: function(e) {
+    e.preventDefault();
+    this.setState({title: e.target.value});
+  },
+
+  _revertTitle: function(e) {
+    e.preventDefault();
+    this._closeEdit();
+    // this.setState({editTitle: false});
+  },
+
+  _openEdit: function(e) {
+    e.preventDefault();
+    this.setState({editTitle: true});
+  },
+
+  _closeEdit: function(e) {
+    e.preventDefault();
+    this.setState({editTitle: false});
   },
 
   render: function() {
@@ -39,15 +65,36 @@ var PollGroup = React.createClass({
     }
 
     var showHideText = this.state.showChildren ? "Hide" : "Show";
-
-    //<input type='checkbox' checked={this.state.checked} onClick={this._onClick}></input>
+    var titleContent;
+    if (!this.state.editTitle) {
+      if (this.state.title !== 'Ungrouped') {
+        titleContent = (
+          <div>
+            <button type='submit' onClick={this._toggleShow}>{showHideText}</button>
+            {this.props.title}
+            <button type='submit' onClick={this._openEdit}>Edit</button>
+          </div>
+        );
+      } else {
+        titleContent = (
+          <div>
+            <button type='submit' onClick={this._toggleShow}>{showHideText}</button>
+            {this.props.title}
+          </div>
+        );
+      }
+    } else {
+      titleContent = (
+        <div>
+          <input type='text' value={this.state.title} onChange={this._updateTitle}></input>
+          <button type='submit' onClick={this._saveTitle}>Save</button>
+        </div>
+      );
+    }
 
     return (
       <div>
-        <div>
-          <button type='submit' onClick={this._toggleShow}>{showHideText}</button>
-          {this.props.title}
-        </div>
+        {titleContent}
         <div>
           {childPolls}
         </div>

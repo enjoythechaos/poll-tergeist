@@ -21,6 +21,17 @@ var ApiUtil = {
     ApiActions.uncheckPolls(pollIds);
   },
 
+  saveTitle: function(pollGroupId, title) {
+    $.ajax({
+      url: "api/poll_groups/" + pollGroupId,
+      data: {title: title, id: pollGroupId},
+      method: "PATCH",
+      complete: function(response) {
+        this.getPollGroupsFor(response.responseText);
+      }.bind(this)
+    });
+  },
+
   fetchPollAndAnswerChoices: function(pollId) {
     console.log("Got into ApiUtil.fetchPollAndAnswerChoices");
     $.get("/api/polls/" + pollId, {}, function(pollEditData) {

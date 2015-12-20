@@ -1,6 +1,6 @@
 class Api::PollsController < ApplicationController
   def index
-    @poll_groups = PollGroup.includes(:polls).where(author_id: params[:user_id])
+    @poll_groups = PollGroup.includes(:polls).where(author_id: params[:user_id]).order(:created_at)
   end
 
   def show

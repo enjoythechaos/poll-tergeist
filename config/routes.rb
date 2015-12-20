@@ -28,6 +28,8 @@ Rails.application.routes.draw do
       end
       resources :answer_choices, only: [:index, :create]
     end
+
+    resources :poll_groups, only: [:update]
   end
 
 end

@@ -28,6 +28,10 @@ var PollIndexPage = React.createClass({
     ApiUtil.getPollGroupsFor(userId);
   },
 
+  componentWillUnmount: function() {
+    PollGroupStore.removeListener(this._onChange);
+  },
+
   _reload: function() {
     this.props.history.pushState(null, this.props.location.pathname, null);
   },
@@ -46,25 +50,16 @@ var PollIndexPage = React.createClass({
     }
     var pollGroupContent = [];
     for (var i = 0; i < this.state.pollGroups.pollGroups.length; i++) {
-      var newPollGroup = <PollGroup pollGroupId={this.state.pollGroups.pollGroups[i].pollGroupId} title={this.state.pollGroups.pollGroups[i].pollGroupTitle} isChecked={false} polls={this.state.pollGroups.pollGroups[i].polls}/>;
+      var newPollGroup = <PollGroup key={i} pollGroupId={this.state.pollGroups.pollGroups[i].pollGroupId} title={this.state.pollGroups.pollGroups[i].pollGroupTitle} isChecked={false} polls={this.state.pollGroups.pollGroups[i].polls}/>;
       pollGroupContent.push(newPollGroup);
     }
-    // for(var i = 0; i < this.state.pollGroups.length; i++) {
-    //   var newPollGroup = <PollGroup pollGroupId={this.state.pollGroups[i][0].poll_group_id} isChecked={false} polls={this.state.pollGroups[i]}/>;
-    //   pollGroupContent.push(newPollGroup);
-    // }
-
     return (
       <div>
         <NavBarTop/>
         <SideBar _goToNewPolls={this._goToNewPolls}/>
         <div>
-          <button type='submit' onClick={this._unlock}>Unlock</button>
-          <button type='submit' onClick={this._lock}>Lock</button>
           <button type='submit' onClick={this._group}>Group</button>
           <button type='submit' onClick={this._ungroup}>Ungroup</button>
-          <button type='submit' onClick={this._clearResults}>Clear Results</button>
-          <button type='submit' onClick={this._delete}>Delete</button>
         </div>
         <div>
           {pollGroupContent}
@@ -73,6 +68,12 @@ var PollIndexPage = React.createClass({
     );
   }
 });
+
+// <button type='submit' onClick={this._unlock}>Unlock</button>
+// <button type='submit' onClick={this._lock}>Lock</button>
+// <button type='submit' onClick={this._clearResults}>Clear Results</button>
+// <button type='submit' onClick={this._delete}>Delete</button>
+
 
 window.PollIndexPage = PollIndexPage;
 

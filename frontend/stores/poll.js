@@ -11,15 +11,12 @@ var _pollEditData = {};
 PollStore.__onDispatch = function(payload) {
   switch (payload.actionType) {
     case (PollConstants.CHECK_POLLS):
-      console.log("Got to PollStore.__onDispatch case PollConstants.CHECK_POLLS");
-      console.log(payload.pollIds);
       for(var i = 0; i < payload.pollIds.length; i++) {
         _checkedPolls[payload.pollIds[i]] = true;
       }
       this.__emitChange();
       break;
     case (PollConstants.UNCHECK_POLLS):
-      console.log("Got to PollStore.__onDispatch case PollConstants.UNCHECK_POLLS");
       for(var i = 0; i < payload.pollIds.length; i++) {
         if (_checkedPolls[payload.pollIds[i]]) {
           delete _checkedPolls[payload.pollIds[i]];
@@ -28,12 +25,8 @@ PollStore.__onDispatch = function(payload) {
       this.__emitChange();
       break;
     case (PollConstants.RECEIVE_EDIT_POLL_DATA):
-      console.log("Got to PollStore.__onDispatch case PollConstants.RECEIVE_EDIT_POLL_DATA");
-      // _poll = payload.pollEditData.pollEditData.poll.question;
-      // _answerChoices = payload.pollEditData.pollEditData.answerChoices;
       _pollEditData = payload.pollEditData;
       _checkedPolls = {};
-      console.log(payload);
       this.__emitChange();
       break;
     case (PollConstants.UNCHECK_ALL):

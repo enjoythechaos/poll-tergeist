@@ -28,7 +28,7 @@ var PollGroup = React.createClass({
 
   _saveTitle: function(e) {
     this.setState({editTitle: false});
-    ApiUtil.saveTitle(this.props.pollGroupId, this.state.title);
+    ApiUtil.saveTitle(this.props.pollGroupId, this.state.title, this.props._rerenderAll);
   },
 
   _toggleShow: function(e) {
@@ -44,7 +44,6 @@ var PollGroup = React.createClass({
   _revertTitle: function(e) {
     e.preventDefault();
     this._closeEdit();
-    // this.setState({editTitle: false});
   },
 
   _openEdit: function(e) {
@@ -60,7 +59,11 @@ var PollGroup = React.createClass({
   render: function() {
     var childPolls = [];
     for (var i = 0; i < this.props.polls.length; i++) {
-      var newChildPoll = <Poll poll={this.props.polls[i]} isChecked={false} visible={this.state.showChildren}/>;
+      var newChildPoll = <Poll poll={this.props.polls[i]}
+                               key={this.props.polls[i].id}
+                               isChecked={false}
+                               visible={this.state.showChildren}
+                         />;
       childPolls.push(newChildPoll);
     }
 

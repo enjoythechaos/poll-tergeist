@@ -5,7 +5,6 @@ var PollStore = require('../stores/poll');
 var PollEdit = React.createClass({
   getInitialState: function() {
     return ({pollEditData: {}});
-    //return ({pollEditData: PollStore.getPollEditData()});
   },
 
   _onChange: function() {

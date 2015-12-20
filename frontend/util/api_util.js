@@ -8,7 +8,6 @@ var ApiUtil = {
   },
 
   checkPolls: function(pollIds) {
-    console.log("Got into ApiUtil.checkPolls");
     ApiActions.checkPolls(pollIds);
   },
 
@@ -17,11 +16,10 @@ var ApiUtil = {
   },
 
   uncheckPolls: function(pollIds) {
-    console.log("Got into ApiUtil.uncheckPolls");
     ApiActions.uncheckPolls(pollIds);
   },
 
-  saveTitle: function(pollGroupId, title) {
+  saveTitle: function(pollGroupId, title, callBack) {
     $.ajax({
       url: "api/poll_groups/" + pollGroupId,
       data: {title: title, id: pollGroupId},

@@ -9,7 +9,8 @@ var PollForm = React.createClass({
           <div>
             <label>
               Answer Choice:
-              <input type='text'
+              <input key={this.props.answerChoices[answerChoiceId]}
+                     type='text'
                      onChange={this.props._updateAnswerChoice.bind(null, answerChoiceId)}
                      value={this.props.answerChoices[answerChoiceId].answerText}
               ></input>

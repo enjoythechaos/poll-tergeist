@@ -23,17 +23,13 @@ var PollIndexPage = React.createClass({
   },
 
   componentDidMount: function() {
-    PollGroupStore.addListener(this._onChange);
+    this.listenerToken = PollGroupStore.addListener(this._onChange);
     var userId = parseInt(this.props.params.userId);
     ApiUtil.getPollGroupsFor(userId);
   },
 
   componentWillUnmount: function() {
-    PollGroupStore.removeListener(this._onChange);
-  },
-
-  _reload: function() {
-    this.props.history.pushState(null, this.props.location.pathname, null);
+    this.listenerToken.remove();
   },
 
   _group: function() {
@@ -50,7 +46,7 @@ var PollIndexPage = React.createClass({
     }
     var pollGroupContent = [];
     for (var i = 0; i < this.state.pollGroups.pollGroups.length; i++) {
-      var newPollGroup = <PollGroup key={i} pollGroupId={this.state.pollGroups.pollGroups[i].pollGroupId} title={this.state.pollGroups.pollGroups[i].pollGroupTitle} isChecked={false} polls={this.state.pollGroups.pollGroups[i].polls}/>;
+      var newPollGroup = <PollGroup key={this.state.pollGroups.pollGroups[i].pollGroupId} pollGroupId={this.state.pollGroups.pollGroups[i].pollGroupId} title={this.state.pollGroups.pollGroups[i].pollGroupTitle} isChecked={false} polls={this.state.pollGroups.pollGroups[i].polls}/>;
       pollGroupContent.push(newPollGroup);
     }
     return (
@@ -68,12 +64,6 @@ var PollIndexPage = React.createClass({
     );
   }
 });
-
-// <button type='submit' onClick={this._unlock}>Unlock</button>
-// <button type='submit' onClick={this._lock}>Lock</button>
-// <button type='submit' onClick={this._clearResults}>Clear Results</button>
-// <button type='submit' onClick={this._delete}>Delete</button>
-
 
 window.PollIndexPage = PollIndexPage;
 

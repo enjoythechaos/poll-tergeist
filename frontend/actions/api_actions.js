@@ -17,7 +17,6 @@ var ApiActions = {
   },
 
   checkPolls: function(pollIds) {
-    console.log("Got Into ApiActions.checkPolls");
     AppDispatcher.dispatch({
       actionType: PollConstants.CHECK_POLLS,
       pollIds: pollIds
@@ -25,7 +24,6 @@ var ApiActions = {
   },
 
   uncheckPolls: function(pollIds) {
-    console.log("Got into ApiActions.uncheckPolls");
     AppDispatcher.dispatch({
       actionType: PollConstants.UNCHECK_POLLS,
       pollIds: pollIds
@@ -33,7 +31,6 @@ var ApiActions = {
   },
 
   fetchPollAndAnswerChoices: function(pollEditData) {
-    console.log("Got into ApiActions.fetchPollAndAnswerChoices");
     AppDispatcher.dispatch({
       actionType: PollConstants.RECEIVE_EDIT_POLL_DATA,
       pollEditData: pollEditData

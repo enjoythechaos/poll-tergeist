@@ -11,15 +11,19 @@ var PollStore = require('./stores/poll');
 var PollIndexPage = require('./components/poll_index_page');
 var MultiPollForm = require('./components/multi_poll_form');
 var PollEdit = require('./components/poll_edit');
+var AnswerPoll = require('./components/answer_poll');
 
 var routes = (
-  <Route path="/users/:userId/polls">
-    <IndexRoute component={PollIndexPage}/>
-    <Route path="/users/:userId/polls/new" component={MultiPollForm}></Route>
-    <Route path="/users/:userId/polls/:pollId/edit" component={PollEdit}></Route>
-  </Route>
+  <Router>
+    <Route path="/polls/:pollId" component={AnswerPoll}/>
+    <Route path="/users/:userId/polls">
+      <IndexRoute component={PollIndexPage}/>
+      <Route path="/users/:userId/polls/new" component={MultiPollForm}></Route>
+      <Route path="/users/:userId/polls/:pollId/edit" component={PollEdit}></Route>
+    </Route>
+  </Router>
 );
 
 document.addEventListener('DOMContentLoaded', function(){
-  ReactDOM.render(<Router>{routes}</Router>, document.getElementById('content'));
+  ReactDOM.render(routes, document.getElementById('content'));
 });

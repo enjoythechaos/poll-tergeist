@@ -74,6 +74,13 @@ var ApiUtil = {
     }.bind(this));
   },
 
+  createResponse: function(answerChoiceId) {
+    $.post("api/responses", {answerChoiceId: answerChoiceId}, function(response) {
+      debugger;
+      alert("Response created for Answer Choice " + answerChoiceId);
+    });
+  },
+
   updatePollAndAnswerChoices: function(pollEditData) {
     var poll = pollEditData.pollEditData.poll;
     var pollId = poll.id;

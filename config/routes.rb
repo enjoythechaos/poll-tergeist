@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   resource :session, only: [:new, :create, :destroy]
 
   namespace :api, defaults: {format: :json} do
+    resources :responses, only: [:create]
     resources :answer_choices, only: [:destroy] do
       collection do
         patch :update_batch

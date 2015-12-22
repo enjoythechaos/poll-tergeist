@@ -1,8 +1,8 @@
 var React = require('react');
 var ApiUtil = require('../util/api_util');
 
-var PollGroupStore = require('../stores/poll_group');
-var PollStore = require('../stores/poll');
+var PollGroupStore = require('../stores/poll_group_store');
+var PollStore = require('../stores/poll_store');
 
 var NavBarTop = require('./nav_bar_top');
 var SideBar = require('./side_bar');
@@ -11,7 +11,7 @@ var Poll = require('./poll');
 
 var PollIndexPage = React.createClass({
   getInitialState: function() {
-    return {pollGroups: null};
+    return {pollGroups: null, checkedPolls: []};
   },
 
   _onChange: function() {
@@ -32,12 +32,33 @@ var PollIndexPage = React.createClass({
     this.listenerToken.remove();
   },
 
+  _check: function(pollId, e) {
+    var idx = this.state.checkedPolls.indexOf(pollId);
+    if (idx !== -1) {
+      this.state.checkedPolls.splice(idx, 1);
+    }
+    this.state.checkedPolls.push(pollId);
+    this.setState({checkedPolls: this.state.checkedPolls});
+  },
+
+  _uncheck: function(pollId, e) {
+    var idx = this.state.checkedPolls.indexOf(pollId);
+    this.state.checkedPolls.splice(idx, 1);
+    this.setState({checkedPolls: this.state.checkedPolls});
+  },
+
+  _isChecked: function(pollId) {
+    (this.state.checkedPolls.indexOf(pollId) !== -1);
+  },
+
   _group: function() {
-    ApiUtil.group(PollStore.checkedPolls(), ApiUtil.getPollGroupsFor.bind(null, parseInt(this.props.params.userId)));
+    this.setState({checkedPolls: []});
+    ApiUtil.group(this.state.checkedPolls, ApiUtil.getPollGroupsFor.bind(null, parseInt(this.props.params.userId)));
   },
 
   _ungroup: function() {
-    ApiUtil.ungroup(PollStore.checkedPolls(), ApiUtil.getPollGroupsFor.bind(null, parseInt(this.props.params.userId)));
+    this.setState({checkedPolls: []});
+    ApiUtil.ungroup(this.state.checkedPolls, ApiUtil.getPollGroupsFor.bind(null, parseInt(this.props.params.userId)));
   },
 
   render: function() {
@@ -45,8 +66,16 @@ var PollIndexPage = React.createClass({
       return (<div></div>);
     }
     var pollGroupContent = [];
-    for (var i = 0; i < this.state.pollGroups.pollGroups.length; i++) {
-      var newPollGroup = <PollGroup key={this.state.pollGroups.pollGroups[i].pollGroupId} pollGroupId={this.state.pollGroups.pollGroups[i].pollGroupId} title={this.state.pollGroups.pollGroups[i].pollGroupTitle} isChecked={false} polls={this.state.pollGroups.pollGroups[i].polls}/>;
+    for (var i = 0; i < this.state.pollGroups.length; i++) {
+      var newPollGroup = <PollGroup key={this.state.pollGroups[i].pollGroupId}
+                                    pollGroupId={this.state.pollGroups[i].pollGroupId}
+                                    title={this.state.pollGroups[i].pollGroupTitle}
+                                    isChecked={false}
+                                    polls={this.state.pollGroups[i].polls}
+                                    _check={this._check}
+                                    _uncheck={this._uncheck}
+                                    _isChecked={this._isChecked}
+                        />;
       pollGroupContent.push(newPollGroup);
     }
     return (

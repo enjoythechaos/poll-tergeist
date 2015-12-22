@@ -1,7 +1,7 @@
 var React = require('react');
 var Poll = require('./poll');
 var ApiUtil = require('../util/api_util');
-var PollStore = require('../stores/poll');
+var PollStore = require('../stores/poll_store');
 
 var PollGroup = React.createClass({
   getInitialState: function() {
@@ -14,6 +14,66 @@ var PollGroup = React.createClass({
       pollIds.push(this.props.polls[i].id);
     }
     this.setState({isChecked: false, pollIds: [], showChildren: true, editTitle: false, title: this.props.title});
+  },
+
+  normalGroupNotBeingEdited: function() {
+    var showHideText = this.state.showChildren ? "Hide" : "Show";
+    return (
+      <div>
+        <button type='submit' onClick={this._toggleShow}>{showHideText}</button>
+        {this.props.title}
+        <button type='submit' onClick={this._openEdit}>Edit</button>
+      </div>
+    );
+  },
+
+  normalGroupBeingEdited: function() {
+    return (
+      <div>
+        <input type='text' value={this.state.title} onChange={this._updateTitle}></input>
+        <button type='submit' onClick={this._saveTitle}>Save</button>
+      </div>
+    );
+  },
+
+  ungroupedWithChildren: function() {
+    var showHideText = this.state.showChildren ? "Hide" : "Show";
+    return (
+      <div>
+        <button type='submit' onClick={this._toggleShow}>{showHideText}</button>
+        {this.props.title}
+      </div>
+    );
+  },
+
+  ungroupedNoChildren: function() {
+    // No need to display a hide button if there are no children.  There is
+    // always a "Ungrouped" group for a user, so this one may not have children.
+    // Other groups will be deleted when they have no children.
+    return (
+      <div>
+        {this.props.title}
+      </div>
+    );
+  },
+
+  getTitleContent: function() {
+    var titleContent;
+
+    if (!this.state.editTitle) {
+      if (this.state.title !== 'Ungrouped') {
+        titleContent = this.normalGroupNotBeingEdited();
+      } else {
+        if (this.props.polls.length > 0) {
+          titleContent =  this.ungroupedWithChildren();
+        } else {
+          titleContent = this.ungroupedNoChildren();
+        }
+      }
+    } else {
+      titleContent = this.normalGroupBeingEdited();
+    }
+    return titleContent;
   },
 
   _onClick: function(e) {
@@ -63,37 +123,14 @@ var PollGroup = React.createClass({
                                key={this.props.polls[i].id}
                                isChecked={false}
                                visible={this.state.showChildren}
+                               _check={this.props._check}
+                               _uncheck={this.props._uncheck}
+                               _isChecked={this.props._isChecked}
                          />;
       childPolls.push(newChildPoll);
     }
 
-    var showHideText = this.state.showChildren ? "Hide" : "Show";
-    var titleContent;
-    if (!this.state.editTitle) {
-      if (this.state.title !== 'Ungrouped') {
-        titleContent = (
-          <div>
-            <button type='submit' onClick={this._toggleShow}>{showHideText}</button>
-            {this.props.title}
-            <button type='submit' onClick={this._openEdit}>Edit</button>
-          </div>
-        );
-      } else {
-        titleContent = (
-          <div>
-            <button type='submit' onClick={this._toggleShow}>{showHideText}</button>
-            {this.props.title}
-          </div>
-        );
-      }
-    } else {
-      titleContent = (
-        <div>
-          <input type='text' value={this.state.title} onChange={this._updateTitle}></input>
-          <button type='submit' onClick={this._saveTitle}>Save</button>
-        </div>
-      );
-    }
+    var titleContent = this.getTitleContent();
 
     return (
       <div>

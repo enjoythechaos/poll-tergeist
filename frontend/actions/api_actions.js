@@ -1,39 +1,28 @@
 var PollGroupConstants = require('../constants/poll_group_constants');
 var PollConstants = require('../constants/poll_constants');
+var PollResultConstants = require('../constants/poll_result_constants');
 var AppDispatcher = require('../dispatcher/dispatcher');
+var PollResultStore = require('../stores/poll_result_store');
 
 var ApiActions = {
-  receivePollGroups: function(pollGroupsObject) {
+  receivePollGroups: function(pollGroups) {
     AppDispatcher.dispatch({
       actionType: PollGroupConstants.RECEIVE_POLLGROUPS,
-      pollGroupsObject: pollGroupsObject
+      pollGroups: pollGroups
     });
   },
 
-  uncheckAll: function() {
+  receivePollResult: function(pollResult) {
     AppDispatcher.dispatch({
-      actionType: PollConstants.UNCHECK_ALL
+      actionType: PollResultConstants.RECEIVE_POLL_RESULT,
+      pollResult: pollResult
     });
   },
 
-  checkPolls: function(pollIds) {
+  fetchPollAndAnswerChoices: function(pollData) {
     AppDispatcher.dispatch({
-      actionType: PollConstants.CHECK_POLLS,
-      pollIds: pollIds
-    });
-  },
-
-  uncheckPolls: function(pollIds) {
-    AppDispatcher.dispatch({
-      actionType: PollConstants.UNCHECK_POLLS,
-      pollIds: pollIds
-    });
-  },
-
-  fetchPollAndAnswerChoices: function(pollEditData) {
-    AppDispatcher.dispatch({
-      actionType: PollConstants.RECEIVE_EDIT_POLL_DATA,
-      pollEditData: pollEditData
+      actionType: PollConstants.RECEIVE_POLL_DATA,
+      pollData: pollData
     });
   }
 };

@@ -6,16 +6,18 @@ var Route = RouterBase.Route;
 var IndexRoute = RouterBase.IndexRoute;
 var Router = RouterBase.Router;
 
-var PollStore = require('./stores/poll');
+var PollStore = require('./stores/poll_store');
 
 var PollIndexPage = require('./components/poll_index_page');
 var MultiPollForm = require('./components/multi_poll_form');
 var PollEdit = require('./components/poll_edit');
 var AnswerPoll = require('./components/answer_poll');
+var PollResult = require('./components/poll_result');
 
 var routes = (
   <Router>
-    <Route path="/polls/:pollId" component={AnswerPoll}/>
+    <Route path="/results/:pollId" component={PollResult}/>
+    <Route path="/answer/:pollId" component={AnswerPoll}/>
     <Route path="/users/:userId/polls">
       <IndexRoute component={PollIndexPage}/>
       <Route path="/users/:userId/polls/new" component={MultiPollForm}></Route>

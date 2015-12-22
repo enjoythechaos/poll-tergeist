@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   resource :session, only: [:new, :create, :destroy]
 
   namespace :api, defaults: {format: :json} do
+    resources :results, only: [:show]
     resources :responses, only: [:create]
     resources :answer_choices, only: [:destroy] do
       collection do
@@ -22,6 +23,7 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :polls, only: [:show]
     resources :polls, only: [:show, :update] do
       collection do
         patch :group

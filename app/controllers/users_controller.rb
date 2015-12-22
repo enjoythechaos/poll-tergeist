@@ -14,10 +14,12 @@ class UsersController < ApplicationController
     end
 
     @user = User.new(username: username, password: password)
+
     if @user.save
       user_id = @user.id
       @ungrouped_poll_group = PollGroup.new({author_id: user_id, title: "Ungrouped"})
       @ungrouped_poll_group.save
+      
       log_in!(@user)
       flash[:messages] = ["User Signed Up and Logged In Successfully"]
       redirect_to root_url

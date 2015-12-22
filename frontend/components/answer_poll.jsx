@@ -1,5 +1,5 @@
 var React = require('react');
-var PollStore = require('../stores/poll');
+var PollStore = require('../stores/poll_store');
 var ApiUtil = require('../util/api_util');
 
 var TakePoll = React.createClass({
@@ -8,7 +8,7 @@ var TakePoll = React.createClass({
   },
 
   _onChange: function() {
-    this.setState({pollData: PollStore.getPollEditData()});
+    this.setState({pollData: PollStore.getPollData()});
   },
 
   componentDidMount: function() {
@@ -22,7 +22,6 @@ var TakePoll = React.createClass({
 
   _selectAnswer: function(answerChoiceId, e) {
     this.setState({selectedAnswerChoiceId: answerChoiceId});
-    debugger;
   },
 
   _createResponse: function() {
@@ -37,14 +36,14 @@ var TakePoll = React.createClass({
     var pollContent,
     pollContent = [(
       <div>
-        {this.state.pollData.pollEditData.poll.question}
+        {this.state.pollData.poll.question}
       </div>
     )];
 
-    for (var i=0; i < this.state.pollData.pollEditData.answerChoices.length; i++) {
+    for (var i=0; i < this.state.pollData.answerChoices.length; i++) {
       pollContent.push(
         <div>
-          <input key={this.state.pollData.pollEditData.answerChoices[i].id} type='radio' name='answer' onClick={this._selectAnswer.bind(null, this.state.pollData.pollEditData.answerChoices[i].id)}></input>{this.state.pollData.pollEditData.answerChoices[i].body}
+          <input key={this.state.pollData.answerChoices[i].id} type='radio' name='answer' onClick={this._selectAnswer.bind(null, this.state.pollData.answerChoices[i].id)}></input>{this.state.pollData.answerChoices[i].body}
         </div>
       );
     }

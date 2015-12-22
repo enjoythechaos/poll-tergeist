@@ -4,7 +4,7 @@ class Api::PollsController < ApplicationController
   end
 
   def show
-    @poll = Poll.includes(:answer_choices).find_by(id: params[:id])
+    @poll = Poll.find(params[:id])
   end
 
   def create
@@ -13,11 +13,13 @@ class Api::PollsController < ApplicationController
   end
 
   def ungroup
-    poll_ids = params[:polls].keys
+    poll_ids = params[:polls].map{|x| x.to_i}
+
     if !poll_ids.empty?
       first_poll = Poll.find(poll_ids[0])
       author_id = first_poll.author_id
       poll_group_id = PollGroup.where(title: "Ungrouped").where(author_id: author_id)[0].id
+
       poll_ids.each do |poll_id|
         poll = Poll.find(poll_id)
         old_poll_group_id = poll.poll_group_id
@@ -28,12 +30,15 @@ class Api::PollsController < ApplicationController
           pg.destroy
         end
       end
+
     end
-    render text: "200 OK"
+    @poll_groups = PollGroup.includes(:polls).where(author_id: author_id).order(:created_at)
+    render :index
+    # render text: "200 OK"
   end
 
   def group
-    poll_ids = params[:polls].keys
+    poll_ids = params[:polls].map{|x| x.to_i}
     if !poll_ids.empty?
       first_poll = Poll.find(poll_ids[0])
       author_id = first_poll.author_id
@@ -51,25 +56,23 @@ class Api::PollsController < ApplicationController
         end
       end
     end
-    render text: "200 OK"
+    @poll_groups = PollGroup.includes(:polls).where(author_id: author_id).order(:created_at)
+    render :index
   end
 
   def create_batch
     poll_group_id = PollGroup.where(title: "Ungrouped").where(author_id: params[:user_id])[0].id
     params[:batch].each do |key, poll_form|
-      if key.match(/[0-9]+/)
-        @poll = Poll.new({question: poll_form[:questionText], author_id: params[:user_id], poll_group_id: poll_group_id})
-        @poll.save
-        poll_id = @poll.id
-        poll_form[:answerChoices].each do |key, answer_choice|
-          if key.match(/[0-9]+/)
-            @answer_choice = AnswerChoice.new({poll_id: poll_id, body: answer_choice[:answerText], letter: "Z"})
-            @answer_choice.save
-          end
-        end
+      @poll = Poll.new({question: poll_form[:questionText], author_id: params[:user_id], poll_group_id: poll_group_id})
+      @poll.save!
+      poll_id = @poll.id
+      poll_form[:answerChoices].each do |key, answer_choice|
+        @answer_choice = AnswerChoice.new({poll_id: poll_id, body: answer_choice[:answerText], letter: "Z"})
+        @answer_choice.save
       end
     end
-    render text: "200 OK"
+    @poll_groups = PollGroup.includes(:polls).where(author_id: params[:user_id]).order(:created_at)
+    render :index
   end
 
   def update

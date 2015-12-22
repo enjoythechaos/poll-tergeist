@@ -5,80 +5,68 @@ var PollUtil = require('../util/poll_util');
 var MultiPollForm = React.createClass({
   getInitialState: function() {
     return({
-      pollFormData: {
-        authorId: this.props.params.userId,
-        nextId: 0
-      },
+      pollFormData: [],
       questionText: ""
     });
   },
 
   _createAll: function(e) {
     e.preventDefault();
-    PollUtil.createBatch(this.state.pollFormData, function(){
+    PollUtil.createBatch(this.state.pollFormData, this.props.params.userId, function() {
       this.props.history.pushState(null, "/users/" + this.props.params.userId + "/polls");
     }.bind(this));
   },
 
   _addPollForm: function(e) {
-    this.state.pollFormData[this.state.pollFormData.nextId] = {
+    this.state.pollFormData.push({
       questionText: e.target.value,
-      answerChoices: {
-        0: {answerText: ""},
-        1: {answerText: ""},
-        nextId: 2
-      }
-    };
-
-    this.state.pollFormData.nextId++;
+      answerChoices: [{answerText: ""}, {answerText: ""}]
+    });
     this.setState({pollFormData: this.state.pollFormData, questionText: ""});
   },
 
-  _deletePollForm: function(pollId, e) {
-    delete this.state.pollFormData[pollId];
+  _deletePollForm: function(pollFormIndex, e) {
+    this.state.pollFormData.splice(pollFormIndex, 1);
     this.setState({pollFormData: this.state.pollFormData});
   },
 
-  _deleteAnswerChoice: function(pollFormId, answerChoiceId) {
-    delete this.state.pollFormData[pollFormId].answerChoices[answerChoiceId];
+  _deleteAnswerChoice: function(pollFormIndex, answerChoiceIndex) {
+    this.state.pollFormData[pollFormIndex].splice(answerChoiceIndex, 1);
     this.setState({pollFormData: this.state.pollFormData});
   },
 
-  _addAnswerChoice: function(pollFormId) {
-    this.state.pollFormData[pollFormId].answerChoices[this.state.pollFormData[pollFormId].answerChoices.nextId] = { answerText: ""};
-    this.state.pollFormData[pollFormId].answerChoices.nextId++;
+  _addAnswerChoice: function(pollFormIndex) {
+    this.state.pollFormData[pollFormIndex].answerChoices.push({answerText: ""});
     this.setState({pollFormData: this.state.pollFormData});
   },
 
-  _updateAnswerChoice: function(pollFormId, answerChoiceId, e) {
-    this.state.pollFormData[pollFormId].answerChoices[answerChoiceId].answerText = e.target.value;
+  _updateAnswerChoice: function(pollFormIndex, answerChoiceIndex, e) {
+    this.state.pollFormData[pollFormIndex].answerChoices[answerChoiceIndex].answerText = e.target.value;
     this.setState({pollFormData: this.state.pollFormData});
   },
 
-  _updateQuestionText: function(pollFormId, e) {
-    this.state.pollFormData[pollFormId].questionText = e.target.value;
+  _updateQuestionText: function(pollFormIndex, e) {
+    this.state.pollFormData[pollFormIndex].questionText = e.target.value;
     this.setState({pollFormData: this.state.pollFormData});
   },
 
   render: function() {
     var pollFormContent = [];
-    for(var id in this.state.pollFormData) {
-      if(this.state.pollFormData.hasOwnProperty(id) && id !== 'nextId' && id !== 'authorId') {
-        pollFormContent.push(
-          <div>
-            <PollForm
-              _deletePollForm={this._deletePollForm.bind(this, id)}
-              _deleteAnswerChoice={this._deleteAnswerChoice.bind(this, id)}
-              _updateAnswerChoice={this._updateAnswerChoice.bind(this, id)}
-              _addAnswerChoice={this._addAnswerChoice.bind(this, id)}
-              _updateQuestionText={this._updateQuestionText.bind(this, id)}
-              answerChoices={this.state.pollFormData[id].answerChoices}
-              questionText={this.state.pollFormData[id].questionText}
-              id={id}
-            />
-          </div>
-        );
-      }
+    for(var pollFormIndex=0; pollFormIndex < this.state.pollFormData.length; pollFormIndex++) {
+      pollFormContent.push(
+        <div>
+          <PollForm
+            _deletePollForm={this._deletePollForm.bind(this, pollFormIndex)}
+            _deleteAnswerChoice={this._deleteAnswerChoice.bind(this, pollFormIndex)}
+            _updateAnswerChoice={this._updateAnswerChoice.bind(this, pollFormIndex)}
+            _addAnswerChoice={this._addAnswerChoice.bind(this, pollFormIndex)}
+            _updateQuestionText={this._updateQuestionText.bind(this, pollFormIndex)}
+            answerChoices={this.state.pollFormData[pollFormIndex].answerChoices}
+            questionText={this.state.pollFormData[pollFormIndex].questionText}
+            id={pollFormIndex}
+          />
+        </div>
+      );
     }
     return (
       <div>

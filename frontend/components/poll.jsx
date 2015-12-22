@@ -1,39 +1,15 @@
 var React = require('react');
-var PollStore = require('../stores/poll');
+var PollStore = require('../stores/poll_store');
 var ApiUtil = require('../util/api_util');
 
-var warn = console.warn;
-console.warn = function(warning) {
-  if (/(setState)/.test(warning)) {
-    throw new Error(warning);
-  }
-  warn.apply(console, arguments);
-};
-
 var Poll = React.createClass({
-  getInitialState: function() {
-    return {checked: false};
-  },
-
-  _onPollStoreUpdate: function() {
-    this.setState({checked: PollStore.isChecked(this.props.poll.id)});
-  },
 
   _onClick: function(e) {
     if (e.target.checked) {
-      ApiUtil.checkPolls([this.props.poll.id]);
+      this.props._check(this.props.poll.id);
     } else {
-      ApiUtil.uncheckPolls([this.props.poll.id]);
+      this.props._uncheck(this.props.poll.id);
     }
-  },
-
-  componentDidMount: function() {
-    this.listenerToken = PollStore.addListener(this._onPollStoreUpdate);
-    this.setState({checked: PollStore.isChecked(this.props.poll.id)});
-  },
-
-  componentWillUnmount: function() {
-    this.listenerToken.remove();
   },
 
   render: function() {
@@ -43,7 +19,7 @@ var Poll = React.createClass({
     return (
       <div>
         <div>
-          <input type='checkbox' checked={this.state.checked} onClick={this._onClick}></input>
+          <input type='checkbox' checked={this.props._isChecked(this.props.poll.id)} onClick={this._onClick}></input>
           {this.props.poll.question}
         </div>
       </div>

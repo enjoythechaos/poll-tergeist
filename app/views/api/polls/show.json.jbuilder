@@ -1,6 +1,4 @@
-# json.extract! @poll, :id, :question, :poll_identifier, :poll_group_id, :locked
-
-json.pollEditData do
+json.pollData do
   json.poll do
     json.id @poll.id
     json.question @poll.question

@@ -8,7 +8,7 @@ var _pollGroups = {};
 PollGroupStore.__onDispatch = function(payload) {
   switch (payload.actionType) {
     case (PollGroupConstants.RECEIVE_POLLGROUPS):
-      this.receivePollGroups(payload.pollGroupsObject);
+      this.receivePollGroups(payload.pollGroups);
       this.__emitChange();
       break;
   }
@@ -18,8 +18,8 @@ PollGroupStore.getPollGroups = function() {
   return _pollGroups;
 };
 
-PollGroupStore.receivePollGroups = function(pollGroupsObject) {
-  _pollGroups = pollGroupsObject;
+PollGroupStore.receivePollGroups = function(pollGroups) {
+  _pollGroups = pollGroups;
 };
 
 window.PollGroupStore = PollGroupStore;

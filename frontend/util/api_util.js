@@ -3,20 +3,14 @@ var ApiActions = require('../actions/api_actions');
 var ApiUtil = {
   getPollGroupsFor: function(userId) {
     $.get("/users/" + userId + "/api/polls", {}, function(results){
-      ApiActions.receivePollGroups(results);
+      ApiActions.receivePollGroups(results.pollGroups);
     });
   },
 
-  checkPolls: function(pollIds) {
-    ApiActions.checkPolls(pollIds);
-  },
-
-  uncheckAll: function() {
-    ApiActions.uncheckAll();
-  },
-
-  uncheckPolls: function(pollIds) {
-    ApiActions.uncheckPolls(pollIds);
+  fetchPollResult: function(pollId) {
+    $.get("api/results/" + pollId, {}, function(result){
+      ApiActions.receivePollResult(result.pollResult);
+    });
   },
 
   saveTitle: function(pollGroupId, title, callBack) {
@@ -31,10 +25,8 @@ var ApiUtil = {
   },
 
   fetchPollAndAnswerChoices: function(pollId) {
-    console.log("Got into ApiUtil.fetchPollAndAnswerChoices");
-    $.get("/api/polls/" + pollId, {}, function(pollEditData) {
-      console.log("...Got into success callback for fetchPollAndAnswerChoices");
-      ApiActions.fetchPollAndAnswerChoices(pollEditData);
+    $.get("/api/polls/" + pollId, {}, function(result) {
+      ApiActions.fetchPollAndAnswerChoices(result.pollData);
     });
   },
 
@@ -49,22 +41,24 @@ var ApiUtil = {
   },
 
   group: function(checkedPolls, callBack) {
-    this.uncheckAll();
     $.ajax({
       url: "api/polls/group",
       data: {polls: checkedPolls},
       method: "PATCH",
-      complete: callBack
+      complete: function(results){
+        ApiActions.receivePollGroups(results.responseJSON.pollGroups);
+      }
     });
   },
 
   ungroup: function(checkedPolls, callBack) {
-    this.uncheckAll();
     $.ajax({
       url: "api/polls/ungroup",
       data: {polls: checkedPolls},
       method: "POST",
-      complete: callBack
+      complete: function(results){
+        ApiActions.receivePollGroups(results.responseJSON.pollGroups);
+      }
     });
   },
 
@@ -75,10 +69,9 @@ var ApiUtil = {
   },
 
   createResponse: function(answerChoiceId) {
-    $.post("api/responses", {answerChoiceId: answerChoiceId}, function(response) {
-      debugger;
-      alert("Response created for Answer Choice " + answerChoiceId);
-    });
+    $.post("api/responses", {answerChoiceId: answerChoiceId}, function(pollId) {
+      this.fetchPollResult(pollId);
+    }.bind(this));
   },
 
   updatePollAndAnswerChoices: function(pollEditData) {
@@ -91,13 +84,11 @@ var ApiUtil = {
       data: {answerChoices: answerChoices},
       type: "PATCH",
       complete: function() {
-        //alert("Got into the first success function");
         $.ajax({
           url: "api/polls/" + pollId,
           type: "PATCH",
           data: {poll: poll},
           complete: function(){
-            //alert("Got into the second success function!");
             that.fetchPollAndAnswerChoices(pollId);
           }
         });

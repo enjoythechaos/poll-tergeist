@@ -3,7 +3,6 @@ var PollStore = require('../stores/poll_store');
 var ApiUtil = require('../util/api_util');
 
 var Poll = React.createClass({
-
   _onClick: function(e) {
     if (e.target.checked) {
       this.props._check(this.props.poll.id);
@@ -11,7 +10,6 @@ var Poll = React.createClass({
       this.props._uncheck(this.props.poll.id);
     }
   },
-
   render: function() {
     if (!this.props.visible) {
       return (<div></div>);

@@ -34,7 +34,6 @@ class Api::PollsController < ApplicationController
     end
     @poll_groups = PollGroup.includes(:polls).where(author_id: author_id).order(:created_at)
     render :index
-    # render text: "200 OK"
   end
 
   def group

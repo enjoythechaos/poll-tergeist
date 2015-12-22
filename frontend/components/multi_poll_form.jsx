@@ -12,9 +12,15 @@ var MultiPollForm = React.createClass({
 
   _createAll: function(e) {
     e.preventDefault();
-    PollUtil.createBatch(this.state.pollFormData, this.props.params.userId, function() {
-      this.props.history.pushState(null, "/users/" + this.props.params.userId + "/polls");
-    }.bind(this));
+    var options = {
+      data: this.state.pollFormData,
+      userId: this.props.params.userId,
+      success: function() {
+        this.props.history.pushState(null, "/users/" + this.props.params.userId + "/polls");
+      }.bind(this)
+    };
+    debugger;
+    PollUtil.createBatch(options);
   },
 
   _addPollForm: function(e) {
@@ -41,7 +47,10 @@ var MultiPollForm = React.createClass({
   },
 
   _updateAnswerChoice: function(pollFormIndex, answerChoiceIndex, e) {
-    this.state.pollFormData[pollFormIndex].answerChoices[answerChoiceIndex].answerText = e.target.value;
+    var pollFormToUpdate = this.state.pollFormData[pollFormIndex];
+    var answerChoiceToUpdate = pollFormToUpdate.answerChoices[answerChoiceIndex];
+    answerChoiceToUpdate.answerText = e.target.value;
+    //this.state.pollFormData[pollFormIndex].answerChoices[answerChoiceIndex].answerText = e.target.value;
     this.setState({pollFormData: this.state.pollFormData});
   },
 
@@ -50,27 +59,30 @@ var MultiPollForm = React.createClass({
     this.setState({pollFormData: this.state.pollFormData});
   },
 
-  render: function() {
-    var pollFormContent = [];
-    for(var pollFormIndex=0; pollFormIndex < this.state.pollFormData.length; pollFormIndex++) {
-      pollFormContent.push(
-        <div>
+  getMultiPollForm: function() {
+    return (
+      this.state.pollFormData.map(function(pollForm, idx){
+        return (
           <PollForm
-            _deletePollForm={this._deletePollForm.bind(this, pollFormIndex)}
-            _deleteAnswerChoice={this._deleteAnswerChoice.bind(this, pollFormIndex)}
-            _updateAnswerChoice={this._updateAnswerChoice.bind(this, pollFormIndex)}
-            _addAnswerChoice={this._addAnswerChoice.bind(this, pollFormIndex)}
-            _updateQuestionText={this._updateQuestionText.bind(this, pollFormIndex)}
-            answerChoices={this.state.pollFormData[pollFormIndex].answerChoices}
-            questionText={this.state.pollFormData[pollFormIndex].questionText}
-            id={pollFormIndex}
+            key={idx}
+            _deletePollForm={this._deletePollForm.bind(this, idx)}
+            _deleteAnswerChoice={this._deleteAnswerChoice.bind(this, idx)}
+            _updateAnswerChoice={this._updateAnswerChoice.bind(this, idx)}
+            _addAnswerChoice={this._addAnswerChoice.bind(this, idx)}
+            _updateQuestionText={this._updateQuestionText.bind(this, idx)}
+            answerChoices={pollForm.answerChoices}
+            questionText={pollForm.questionText}
+            id={idx}
           />
-        </div>
-      );
-    }
+        );
+      }.bind(this))
+    );
+  },
+
+  render: function() {
     return (
       <div>
-        {pollFormContent}
+        {this.getMultiPollForm()}
         Add a Poll:
         <br></br>
         <input type='text' onChange={this._addPollForm} value={this.state.questionText}/>

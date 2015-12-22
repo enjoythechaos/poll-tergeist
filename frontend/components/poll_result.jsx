@@ -14,6 +14,7 @@ var PollResult = React.createClass({
 
   componentDidMount: function() {
     var pollId = this.props.params.pollId;
+
     this.listenerToken = PollResultStore.addListener(this._onChange);
     ApiUtil.fetchPollResult(pollId);
   },
@@ -26,22 +27,23 @@ var PollResult = React.createClass({
     if (this.state.pollResult === null) {
       return (<div>No poll results</div>);
     }
-    var pollResultContent = [];
-    pollResultContent.push(
+
+    return (
       <div>
-        {this.state.pollResult.question}
+        <div>
+          {this.state.pollResult.question}
+        </div>
+        <div>
+          {this.state.pollResult.results.map(function(result){
+            return (
+              <AnswerChoiceTally key={result.answerChoiceId}
+                                 answerChoiceText={result.answerChoiceText}
+                                 count={result.count} />
+            );
+          })}
+        </div>
       </div>
     );
-    for(var i=0; i < this.state.pollResult.results.length; i++) {
-      pollResultContent.push(
-        <AnswerChoiceTally
-          key={this.state.pollResult.results[i].answerChoiceId}
-          answerChoiceText={this.state.pollResult.results[i].answerChoiceText}
-          count={this.state.pollResult.results[i].count}
-        />
-      );
-    }
-    return (<div>{pollResultContent}</div>);
   }
 });
 

@@ -116,27 +116,31 @@ var PollGroup = React.createClass({
     this.setState({editTitle: false});
   },
 
-  render: function() {
-    var childPolls = [];
-    for (var i = 0; i < this.props.polls.length; i++) {
-      var newChildPoll = <Poll poll={this.props.polls[i]}
-                               key={this.props.polls[i].id}
-                               isChecked={false}
-                               visible={this.state.showChildren}
-                               _check={this.props._check}
-                               _uncheck={this.props._uncheck}
-                               _isChecked={this.props._isChecked}
-                         />;
-      childPolls.push(newChildPoll);
-    }
+  getChildPolls: function() {
+    return (
+      this.props.polls.map(function(poll, i) {
+        return (
+          <Poll poll={poll}
+                key={poll.id}
+                isChecked={false}
+                visible={this.state.showChildren}
+                _check={this.props._check}
+                _uncheck={this.props._uncheck}
+                _isChecked={this.props._isChecked}
+          />
+        );
+      }.bind(this))
+    );
+  },
 
+  render: function() {
     var titleContent = this.getTitleContent();
 
     return (
       <div>
-        {titleContent}
+        {this.getTitleContent()}
         <div>
-          {childPolls}
+          {this.getChildPolls()}
         </div>
       </div>
     );

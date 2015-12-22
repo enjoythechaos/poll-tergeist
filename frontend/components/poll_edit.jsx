@@ -23,6 +23,7 @@ var PollEdit = React.createClass({
   },
 
   _deleteAnswerChoice: function(answerChoiceId, e) {
+    debugger;
     e.preventDefault();
     this._updatePoll();
     ApiUtil.deleteAnswerChoice(answerChoiceId);
@@ -48,8 +49,8 @@ var PollEdit = React.createClass({
     if (this.state.pollData === null) {
       return (<div></div>);
     }
-    var answerChoiceContent = [];
     debugger;
+    var answerChoiceContent = [];
     for(var i = 0; i < this.state.pollData.answerChoices.length; i++) {
       answerChoiceContent.push(
         <div>

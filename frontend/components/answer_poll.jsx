@@ -1,8 +1,9 @@
 var React = require('react');
 var PollStore = require('../stores/poll_store');
 var ApiUtil = require('../util/api_util');
+var AnswerChoices = require('./answer_choices');
 
-var TakePoll = React.createClass({
+var AnswerPoll = React.createClass({
   getInitialState: function() {
     return {pollData: null, selectedAnswerChoiceId: null};
   },
@@ -33,33 +34,16 @@ var TakePoll = React.createClass({
       return (<div></div>);
     }
 
-    var pollContent,
-    pollContent = [(
-      <div>
-        {this.state.pollData.poll.question}
-      </div>
-    )];
-
-    for (var i=0; i < this.state.pollData.answerChoices.length; i++) {
-      pollContent.push(
-        <div>
-          <input key={this.state.pollData.answerChoices[i].id} type='radio' name='answer' onClick={this._selectAnswer.bind(null, this.state.pollData.answerChoices[i].id)}></input>{this.state.pollData.answerChoices[i].body}
-        </div>
-      );
-    }
-
-    pollContent.push(
-      <div>
-        <button type='submit' onClick={this._createResponse}>Submit Answers</button>
-      </div>
-    );
-
     return (
       <div>
-        {pollContent}
+        <div>
+          {this.state.pollData.poll.question}
+        </div>
+        <AnswerChoices answerChoices={this.state.pollData.answerChoices} _selectAnswer={this._selectAnswer}/>
+        <button type='submit' onClick={this._createResponse}>Submit Answers</button>
       </div>
     );
   }
 });
 
-module.exports = TakePoll;
+module.exports = AnswerPoll;

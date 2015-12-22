@@ -1,38 +1,54 @@
 Rails.application.routes.draw do
   root to: "static_pages#index"
-
-  resources :users, only: [:new, :create, :destroy] do
-    namespace :api, defaults: {format: :json} do
-      resources :polls, only: [:index, :create] do
-        collection do
-          put :create_batch
-        end
-      end
-    end
-  end
-
-  resource :session, only: [:new, :create, :destroy]
-
   namespace :api, defaults: {format: :json} do
-    resources :results, only: [:show]
-    resources :responses, only: [:create]
-    resources :answer_choices, only: [:destroy] do
+    resources :answer_choices, only: [:destroy] do # Destroy happens from poll edit.
       collection do
-        patch :update_batch
-        put :create_batch
+        patch :update_batch # Should be okay.  Need to find where this is happening.
+        put :create_batch # Should be okay  Need to find where this is happening.
       end
     end
 
-    resources :polls, only: [:show]
-    resources :polls, only: [:show, :update] do
+    # Called from #/answer/:poll_id (AnswerPoll)
+    resources :responses, only: [:create]
+
+    # Called from #/results/:poll_id (PollResult)
+    resources :results, only: [:show]
+
+    # Called from PollIndexPage when you update a title.
+    resources :poll_groups, only: [:update]
+
+    # show: ???
+    # update: EditPoll
+    # create: ??? Superceded by create_batch
+    resources :polls, only: [:show, :create, :update] do
+
       collection do
-        patch :group
-        post :ungroup
+        patch :group       # From poll index page
+        patch :ungroup      # From poll index page
       end
+
+      # member do
+      #   post :update # This is a little weird but I want patch and put to go together.
+      # end
+
+      # index: ???
+      # create: Called from EditPoll?
       resources :answer_choices, only: [:index, :create]
     end
 
-    resources :poll_groups, only: [:update]
+    # This is ok / standard
+    resources :users do
+      resources :polls, only: [:index] do
+        collection do
+          post :create_batch  # From multi-poll-form
+        end
+      end
+    end
+
   end
+
+  resources :users, only: [:new, :create, :destroy]
+
+  resource :session, only: [:new, :create, :destroy]
 
 end

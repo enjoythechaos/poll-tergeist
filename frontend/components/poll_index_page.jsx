@@ -52,31 +52,40 @@ var PollIndexPage = React.createClass({
   },
 
   _group: function() {
+    this.resetCheckedPolls();
+    ApiUtil.group(this.state.checkedPolls);
+  },
+
+  resetCheckedPolls: function() {
     this.setState({checkedPolls: []});
-    ApiUtil.group(this.state.checkedPolls, ApiUtil.getPollGroupsFor.bind(null, parseInt(this.props.params.userId)));
   },
 
   _ungroup: function() {
-    this.setState({checkedPolls: []});
-    ApiUtil.ungroup(this.state.checkedPolls, ApiUtil.getPollGroupsFor.bind(null, parseInt(this.props.params.userId)));
+    this.resetCheckedPolls();
+    ApiUtil.ungroup(this.state.checkedPolls);
+  },
+
+  getPollGroupContent: function() {
+    return (
+      this.state.pollGroups.map(function(pollGroup){
+        return (
+          <PollGroup key={pollGroup.pollGroupId}
+                     pollGroupId={pollGroup.pollGroupId}
+                     title={pollGroup.pollGroupTitle}
+                     isChecked={false}
+                     polls={pollGroup.polls}
+                     _check={this._check}
+                     _uncheck={this._uncheck}
+                     _isChecked={this._isChecked}
+          />
+        );
+      }.bind(this))
+    );
   },
 
   render: function() {
     if (this.state.pollGroups === null) {
       return (<div></div>);
-    }
-    var pollGroupContent = [];
-    for (var i = 0; i < this.state.pollGroups.length; i++) {
-      var newPollGroup = <PollGroup key={this.state.pollGroups[i].pollGroupId}
-                                    pollGroupId={this.state.pollGroups[i].pollGroupId}
-                                    title={this.state.pollGroups[i].pollGroupTitle}
-                                    isChecked={false}
-                                    polls={this.state.pollGroups[i].polls}
-                                    _check={this._check}
-                                    _uncheck={this._uncheck}
-                                    _isChecked={this._isChecked}
-                        />;
-      pollGroupContent.push(newPollGroup);
     }
     return (
       <div>
@@ -87,7 +96,7 @@ var PollIndexPage = React.createClass({
           <button type='submit' onClick={this._ungroup}>Ungroup</button>
         </div>
         <div>
-          {pollGroupContent}
+          {this.getPollGroupContent()}
         </div>
       </div>
     );

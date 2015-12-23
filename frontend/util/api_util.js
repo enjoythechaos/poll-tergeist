@@ -1,22 +1,23 @@
 var ApiActions = require('../actions/api_actions');
 
 var ApiUtil = {
+  getCurrentUser: function(callBack) {
+    $.get("/api/session", {}, callBack);
+  },
+
   getPollGroupsFor: function(userId) {
-    // I think this is okay for refactoring.
     $.get("/api/users/" + userId + "/polls", {}, function(results){
       ApiActions.receivePollGroups(results.pollGroups);
     });
   },
 
   fetchPollResult: function(pollId) {
-    // I think this shouldn't need refactoring.
     $.get("/api/results/" + pollId, {}, function(result){
       ApiActions.receivePollResult(result.pollResult);
     });
   },
 
   saveTitle: function(pollGroupId, title, callBack) {
-    // I think this shouldn't need refactoring.
     $.ajax({
       url: "/api/poll_groups/" + pollGroupId,
       data: {title: title, id: pollGroupId},
@@ -28,7 +29,6 @@ var ApiUtil = {
   },
 
   fetchPollAndAnswerChoices: function(pollId) {
-    // No conflict here.
     $.get("/api/polls/" + pollId, {}, function(result) {
       ApiActions.fetchPollAndAnswerChoices(result.pollData);
     });
@@ -36,17 +36,15 @@ var ApiUtil = {
 
   deleteAnswerChoice: function(answerChoiceId) {
     $.ajax({
-      // This looks like it won't need to be refactored.
       url: "api/answer_choices/" + answerChoiceId,
       method: "DELETE",
       complete: function(answer_choice) {
-        this.fetchPollAndAnswerChoices(parseInt(answer_choice.poll_id));
+        this.fetchPollAndAnswerChoices(parseInt(answer_choice.responseJSON.poll_id));
       }.bind(this)
     });
   },
 
-  group: function(checkedPolls, callBack) {
-    // This should be okay.
+  group: function(checkedPolls) {
     $.ajax({
       url: "api/polls/group",
       data: {polls: checkedPolls},
@@ -57,7 +55,7 @@ var ApiUtil = {
     });
   },
 
-  ungroup: function(checkedPolls, callBack) {
+  ungroup: function(checkedPolls) {
     $.ajax({
       url: "api/polls/ungroup",
       data: {polls: checkedPolls},
@@ -68,26 +66,47 @@ var ApiUtil = {
     });
   },
 
+  deletePollBatch: function(checkedPolls) {
+    $.ajax({
+      url: "api/polls/delete_batch",
+      data: {polls: checkedPolls},
+      method: "DELETE",
+      complete: function(results){
+        ApiActions.receivePollGroups(results.responseJSON.pollGroups);
+      }
+    });
+  },
+
+  deleteResponses: function(checkedPolls) {
+    console.log("Got into ApiUtil.deleteResponses");
+    $.ajax({
+      url: "api/polls/delete_responses",
+      data: {polls: checkedPolls},
+      method: "DELETE",
+      complete: function(results){
+        console.log("Got into ApiUtil.deleteResponses success callback");
+        ApiActions.receivePollGroups(results.responseJSON.pollGroups);
+      }
+    });
+  },
+
   addAnswerChoice: function(pollId) {
-    // This should be okay.
     $.post("api/polls/" + pollId + "/answer_choices", {}, function(answer_choice) {
         this.fetchPollAndAnswerChoices(parseInt(answer_choice.poll_id));
     }.bind(this));
   },
 
   createResponse: function(answerChoiceId) {
-    // This should be okay.
     $.post("api/responses", {answerChoiceId: answerChoiceId}, function(pollId) {
       this.fetchPollResult(pollId);
     }.bind(this));
   },
 
-  updatePollAndAnswerChoices: function(pollData) {
+  updatePollAndAnswerChoices: function(pollData, callBack) {
     var poll = pollData.poll;
     var pollId = poll.id;
     var answerChoices = pollData.answerChoices;
     var that = this;
-    // This should be okay.
     $.ajax({
       url: "api/answer_choices/update_batch",
       data: {answerChoices: answerChoices},
@@ -95,9 +114,10 @@ var ApiUtil = {
       complete: function() {
         $.ajax({
           url: "api/polls/" + pollId,
-          type: "POST",
+          type: "PUT",
           data: {poll: poll},
           complete: function(){
+            //callBack();
             that.fetchPollAndAnswerChoices(pollId);
           }
         });

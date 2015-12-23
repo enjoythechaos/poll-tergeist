@@ -2,6 +2,7 @@ var React = require('react');
 var ApiUtil = require('../util/api_util');
 var AnswerChoiceTally = require('./answer_choice_tally');
 var PollResultStore = require('../stores/poll_result_store');
+var Auth = require('./auth');
 
 var PollResult = React.createClass({
   getInitialState: function() {

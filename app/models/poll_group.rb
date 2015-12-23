@@ -7,7 +7,8 @@ class PollGroup < ActiveRecord::Base
   has_many :polls,
   primary_key: :id,
   foreign_key: :poll_group_id,
-  class_name: "Poll"
+  class_name: "Poll",
+  dependent: :destroy
 
   has_many :answer_choices,
   through: :polls,

@@ -9,7 +9,11 @@ var SideBar = require('./side_bar');
 var PollGroup = require('./poll_group');
 var Poll = require('./poll');
 
+var Auth = require('./auth');
+
 var PollIndexPage = React.createClass({
+  mixins: [Auth],
+
   getInitialState: function() {
     return {pollGroups: null, checkedPolls: []};
   },
@@ -52,17 +56,27 @@ var PollIndexPage = React.createClass({
   },
 
   _group: function() {
-    this.resetCheckedPolls();
+    //this.resetCheckedPolls();
     ApiUtil.group(this.state.checkedPolls);
+  },
+
+  _ungroup: function() {
+    //this.resetCheckedPolls();
+    ApiUtil.ungroup(this.state.checkedPolls);
+  },
+
+  _deletePollBatch: function() {
+    //this.resetCheckedPolls();
+    ApiUtil.deletePollBatch(this.state.checkedPolls);
+  },
+
+  _deleteResponses: function() {
+    //this.resetCheckedPolls();
+    ApiUtil.deleteResponses(this.state.checkedPolls);
   },
 
   resetCheckedPolls: function() {
     this.setState({checkedPolls: []});
-  },
-
-  _ungroup: function() {
-    this.resetCheckedPolls();
-    ApiUtil.ungroup(this.state.checkedPolls);
   },
 
   getPollGroupContent: function() {
@@ -94,6 +108,8 @@ var PollIndexPage = React.createClass({
         <div>
           <button type='submit' onClick={this._group}>Group</button>
           <button type='submit' onClick={this._ungroup}>Ungroup</button>
+          <button type='submit' onClick={this._deletePollBatch}>Delete</button>
+          <button type='submit' onClick={this._deleteResponses}>Delete Responses</button>
         </div>
         <div>
           {this.getPollGroupContent()}

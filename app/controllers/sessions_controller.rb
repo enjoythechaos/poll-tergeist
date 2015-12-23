@@ -9,10 +9,18 @@ class SessionsController < ApplicationController
     if @user
       log_in!(@user)
       flash[:messages] = ["User Logged In Successfully"]
-      redirect_to root_url
+      if params[:url]
+        redirect_to root_url + "#" + params[:url]
+      else
+        redirect_to root_url
+      end
     else
       flash[:errors] = ["Invalid Log In Credentials"]
-      redirect_to new_session_url
+      if params[:url]
+        redirect_to new_session_url + "?url=" + params[:url]
+      else
+        redirect_to new_session_url
+      end
     end
   end
 

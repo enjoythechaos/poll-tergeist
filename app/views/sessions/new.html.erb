@@ -1,6 +1,7 @@
 <H1>Sign In</H1>
 <form action="<%= session_url %>" method="post">
   <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  <input type="hidden" name="url" value="<%= params[:url] %>">
   <label>
     Username
     <input type="text" name="user[username]">

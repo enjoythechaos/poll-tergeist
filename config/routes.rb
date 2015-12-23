@@ -25,16 +25,16 @@ Rails.application.routes.draw do
       collection do
         patch :group       # From poll index page
         patch :ungroup      # From poll index page
+        delete :delete_batch
+        delete :delete_responses
       end
-
-      # member do
-      #   post :update # This is a little weird but I want patch and put to go together.
-      # end
 
       # index: ???
       # create: Called from EditPoll?
       resources :answer_choices, only: [:index, :create]
     end
+
+    resource :session, only: [:show]
 
     # This is ok / standard
     resources :users do

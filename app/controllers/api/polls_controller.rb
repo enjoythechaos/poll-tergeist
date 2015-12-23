@@ -59,6 +59,41 @@ class Api::PollsController < ApplicationController
     render :index
   end
 
+  def delete_batch
+    poll_ids = params[:polls].map{|x| x.to_i}
+    if !poll_ids.empty?
+      first_poll = Poll.find(poll_ids[0])
+      author_id = first_poll.author_id
+      poll_ids.each do |poll_id|
+        poll = Poll.find(poll_id)
+        # How to delete answer choices and responses?
+        old_poll_group_id = poll.poll_group_id
+        poll.destroy!
+        pg = PollGroup.find(old_poll_group_id)
+        if pg.title != 'Ungrouped' && pg.polls.empty?
+          pg.destroy!
+        end
+      end
+    end
+    @poll_groups = PollGroup.includes(:polls).where(author_id: author_id).order(:created_at)
+    render :index
+  end
+
+  def delete_responses
+    poll_ids = params[:polls].map{|x| x.to_i}
+    if !poll_ids.empty?
+      first_poll = Poll.find(poll_ids[0])
+      author_id = first_poll.author_id
+      poll_ids.each do |poll_id|
+        poll = Poll.find(poll_id)
+        responses = poll.responses
+        responses.each{|response| response.destroy!}
+      end
+    end
+    @poll_groups = PollGroup.includes(:polls).where(author_id: author_id).order(:created_at)
+    render :index
+  end
+
   def create_batch
     poll_group_id = PollGroup.where(title: "Ungrouped").where(author_id: params[:user_id])[0].id
     params[:batch].each do |key, poll_form|

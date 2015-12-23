@@ -1,8 +1,11 @@
 var React = require('react');
 var PollForm = require('./poll_form');
 var PollUtil = require('../util/poll_util');
+var Auth = require('./auth');
 
 var MultiPollForm = React.createClass({
+  mixins: [Auth],
+
   getInitialState: function() {
     return({
       pollFormData: [],
@@ -37,7 +40,7 @@ var MultiPollForm = React.createClass({
   },
 
   _deleteAnswerChoice: function(pollFormIndex, answerChoiceIndex) {
-    this.state.pollFormData[pollFormIndex].splice(answerChoiceIndex, 1);
+    this.state.pollFormData[pollFormIndex].answerChoices.splice(answerChoiceIndex, 1);
     this.setState({pollFormData: this.state.pollFormData});
   },
 

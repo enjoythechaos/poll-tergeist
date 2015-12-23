@@ -15,5 +15,7 @@ class AnswerChoice < ActiveRecord::Base
   has_many :responses,
   primary_key: :id,
   foreign_key: :answer_choice_id,
-  class_name: "Response"
+  class_name: "Response",
+  dependent: :destroy
+
 end

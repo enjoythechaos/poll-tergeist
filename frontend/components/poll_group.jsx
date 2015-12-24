@@ -16,74 +16,36 @@ var PollGroup = React.createClass({
     this.setState({isChecked: false, pollIds: [], showChildren: true, editTitle: false, title: this.props.title});
   },
 
-  normalGroupNotBeingEdited: function() {
-    var showHideText = this.state.showChildren ? "Hide" : "Show";
-    return (
-      <div>
-        <button type='submit' onClick={this._toggleShow}>{showHideText}</button>
-        {this.props.title}
-        <button type='submit' onClick={this._openEdit}>Edit</button>
-      </div>
-    );
-  },
-
-  normalGroupBeingEdited: function() {
-    return (
-      <div>
-        <input type='text' value={this.state.title} onChange={this._updateTitle}></input>
-        <button type='submit' onClick={this._saveTitle}>Save</button>
-      </div>
-    );
-  },
-
-  ungroupedWithChildren: function() {
-    var showHideText = this.state.showChildren ? "Hide" : "Show";
-    return (
-      <div>
-        <button type='submit' onClick={this._toggleShow}>{showHideText}</button>
-        {this.props.title}
-      </div>
-    );
-  },
-
-  ungroupedNoChildren: function() {
-    // No need to display a hide button if there are no children.  There is
-    // always a "Ungrouped" group for a user, so this one may not have children.
-    // Other groups will be deleted when they have no children.
-    return (
-      <div>
-        {this.props.title}
-      </div>
-    );
+  getSymbolContent: function() {
+    var symbolContent = <div className="symbol-slot">.</div>;
+    if (this.props.polls.length > 0) {
+      if (this.state.showChildren) {
+        symbolContent = <div onClick={this._toggleShow} className="glyphicon glyphicon-triangle-bottom symbol-slot"></div>;
+      } else {
+        symbolContent = <div onClick={this._toggleShow} className="glyphicon glyphicon-triangle-right symbol-slot"></div>;
+      }
+    }
+    return symbolContent;
   },
 
   getTitleContent: function() {
-    var titleContent;
-
-    if (!this.state.editTitle) {
-      if (this.state.title !== 'Ungrouped') {
-        titleContent = this.normalGroupNotBeingEdited();
-      } else {
-        if (this.props.polls.length > 0) {
-          titleContent =  this.ungroupedWithChildren();
-        } else {
-          titleContent = this.ungroupedNoChildren();
-        }
-      }
+    if (this.state.title !== 'Ungrouped' && this.state.editTitle) {
+      return <input type='text' value={this.state.title} onChange={this._updateTitle}></input>;
     } else {
-      titleContent = this.normalGroupBeingEdited();
+      return <b>{this.state.title}</b>;
     }
-    return titleContent;
   },
 
-  _onClick: function(e) {
-    console.log(e);
-    if (e.target.checked) {
-      ApiUtil.checkPolls(this.state.pollIds);
-    } else {
-      ApiUtil.uncheckPolls(this.state.pollIds);
+  getEditSave: function() {
+    var editContent = "";
+    if (this.state.title !== 'Ungrouped') {
+      if (this.state.editTitle) {
+        editContent = <a onClick={this._saveTitle}>Save</a>;
+      } else {
+        editContent = <a onClick={this._openEdit}>Edit</a>;
+      }
     }
-    this.setState({checked: !this.state.checked});
+    return editContent;
   },
 
   _saveTitle: function(e) {
@@ -101,19 +63,9 @@ var PollGroup = React.createClass({
     this.setState({title: e.target.value});
   },
 
-  _revertTitle: function(e) {
-    e.preventDefault();
-    this._closeEdit();
-  },
-
   _openEdit: function(e) {
     e.preventDefault();
     this.setState({editTitle: true});
-  },
-
-  _closeEdit: function(e) {
-    e.preventDefault();
-    this.setState({editTitle: false});
   },
 
   getChildPolls: function() {
@@ -134,14 +86,22 @@ var PollGroup = React.createClass({
   },
 
   render: function() {
-    var titleContent = this.getTitleContent();
-
     return (
       <div>
-        {this.getTitleContent()}
-        <div>
-          {this.getChildPolls()}
+        <div className="poll-index-element poll-index-pollgroup">
+          <div className="symbol-slot">
+            {this.getSymbolContent()}
+          </div>
+          <div className="title-slot">
+            {this.getTitleContent()}
+          </div>
+          <div className="first-option">
+            {this.getEditSave()}
+          </div>
+          <div className="second-option">
+          </div>
         </div>
+        {this.getChildPolls()}
       </div>
     );
   }

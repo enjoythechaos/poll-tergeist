@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<%= flash[:errors].join("<BR>").html_safe if flash[:errors] %>
+<!-- <%= flash[:errors].join("<BR>").html_safe if flash[:errors] %>
 <%= "<BR>".html_safe if flash[:errors] %>
 <%= flash[:messages].join("<BR>").html_safe if flash[:messages] %>
 <%= "<BR>".html_safe if flash[:messages] %>
@@ -19,7 +19,7 @@
 <% else %>
   <%= link_to "Sign In", new_session_url, method: :get %>
   <%= link_to "Sign Up", new_user_url, method: :get %>
-<% end %>
+<% end %> -->
 
 <%= yield %>
 

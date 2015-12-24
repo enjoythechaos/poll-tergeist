@@ -13,10 +13,15 @@ var NavBarTop = React.createClass({
 
   render: function() {
     return (
-      <div>
-        <button type='submit' onClick={this._toPollIndex}>Polls</button>
-        <button type='submit' onClick={this._toLogOut}>Log Out</button>
-      </div>
+      <nav className="clearfix navbar-default">
+        <ul className="nav nav-pills navbar-left">
+          <li><a>Polltergeist</a></li>
+        </ul>
+        <ul className="nav nav-pills navbar-right">
+          <li role="presentation"><a onClick={this._toPollIndex}>Polls</a></li>
+          <li role="presentation"><a onClick={this.__toLogOut}>Log Out</a></li>
+        </ul>
+      </nav>
     );
   }
 });

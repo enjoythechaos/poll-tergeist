@@ -5,6 +5,8 @@ var PollResultStore = require('../stores/poll_result_store');
 var Auth = require('./auth');
 
 var PollResult = React.createClass({
+  mixins: [Auth],
+  
   getInitialState: function() {
     return {pollResult: null};
   },

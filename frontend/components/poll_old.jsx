@@ -29,29 +29,13 @@ var Poll = React.createClass({
       return (<div></div>);
     }
     return (
-      <div className="poll-index-element poll-index-poll">
-        <div className="symbol-slot">
+      <div>
+        <div>
           <input type='checkbox' checked={this.props._isChecked(this.props.poll.id)} onClick={this._onClick}></input>
-        </div>
-        <div className="title-slot">
-          {this.props.poll.question}
-        </div>
-        <div className="first-option">
-          <a type='submit' onClick={this._redirectToPollEdit}>Edit</a>
-        </div>
-        <div className="second-option">
-          <a type='submit' onClick={this._redirectToPollResult}>Results</a>
+          {this.props.poll.question} <a type='submit' onClick={this._redirectToPollEdit}>Edit</a> | <a type='submit' onClick={this._redirectToPollResult}>View Results</a>
         </div>
       </div>
     );
-    // return (
-    //   <div>
-    //     <div>
-    //       <input type='checkbox' checked={this.props._isChecked(this.props.poll.id)} onClick={this._onClick}></input>
-    //       {this.props.poll.question} <a type='submit' onClick={this._redirectToPollEdit}>Edit</a> | <a type='submit' onClick={this._redirectToPollResult}>View Results</a>
-    //     </div>
-    //   </div>
-    // );
   }
 });
 

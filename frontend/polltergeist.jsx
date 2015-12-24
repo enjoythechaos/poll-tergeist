@@ -13,6 +13,7 @@ var MultiPollForm = require('./components/multi_poll_form');
 var PollEdit = require('./components/poll_edit');
 var AnswerPoll = require('./components/answer_poll');
 var PollResult = require('./components/poll_result');
+var StartPage = require('./components/start_page');
 
 var routes = (
   <Router>
@@ -23,6 +24,7 @@ var routes = (
       <Route path="/users/:userId/polls/new" component={MultiPollForm}></Route>
       <Route path="/users/:userId/polls/:pollId/edit" component={PollEdit}></Route>
     </Route>
+    <Route path="/" component={StartPage}/>
   </Router>
 );
 

@@ -56,28 +56,35 @@ var PollIndexPage = React.createClass({
   },
 
   _group: function() {
-    //this.resetCheckedPolls();
+    debugger;
     ApiUtil.group(this.state.checkedPolls);
-  },
-
-  _ungroup: function() {
-    //this.resetCheckedPolls();
-    ApiUtil.ungroup(this.state.checkedPolls);
-  },
-
-  _deletePollBatch: function() {
-    //this.resetCheckedPolls();
-    ApiUtil.deletePollBatch(this.state.checkedPolls);
-  },
-
-  _deleteResponses: function() {
-    //this.resetCheckedPolls();
-    ApiUtil.deleteResponses(this.state.checkedPolls);
+    this.resetCheckedPolls();
+    debugger;
   },
 
   resetCheckedPolls: function() {
     this.setState({checkedPolls: []});
+    debugger;
   },
+
+  _ungroup: function() {
+    debugger;
+    ApiUtil.ungroup(this.state.checkedPolls);
+    this.resetCheckedPolls();
+    debugger;
+  },
+
+  _deletePollBatch: function() {
+    ApiUtil.deletePollBatch(this.state.checkedPolls);
+  },
+
+  _deleteResponses: function() {
+    ApiUtil.deleteResponses(this.state.checkedPolls);
+  },
+
+  // resetCheckedPolls: function() {
+  //   this.setState({checkedPolls: []});
+  // },
 
   getPollGroupContent: function() {
     return (
@@ -101,21 +108,52 @@ var PollIndexPage = React.createClass({
     if (this.state.pollGroups === null) {
       return (<div></div>);
     }
+
     return (
       <div>
-        <NavBarTop/>
-        <SideBar _goToNewPolls={this._goToNewPolls}/>
         <div>
-          <button type='submit' onClick={this._group}>Group</button>
-          <button type='submit' onClick={this._ungroup}>Ungroup</button>
-          <button type='submit' onClick={this._deletePollBatch}>Delete</button>
-          <button type='submit' onClick={this._deleteResponses}>Delete Responses</button>
+          <NavBarTop/>
         </div>
-        <div>
+        <div className="sidebar">
+          <SideBar/>
+        </div>
+        <div className="main-content clearfix">
+          <nav className="clearfix">
+            <div className="center clearfix">
+              <ul className="nav nav-pills navbar-left">
+                <li><a onClick={this._group}>Group</a></li>
+                <li><a type='submit' onClick={this._ungroup}>Ungroup</a></li>
+              </ul>
+              <ul className="nav nav-pills navbar-right">
+                <li><a type='submit' onClick={this._deletePollBatch}>Delete</a></li>
+                <li><a type='submit' onClick={this._deleteResponses}>Delete Responses</a></li>
+              </ul>
+            </div>
+          </nav>
           {this.getPollGroupContent()}
         </div>
       </div>
     );
+
+    // return (
+    //   <div>
+    //     <NavBarTop/>
+    //
+    //     <nav>
+    //       <div className="center">
+    //         <ul className="nav nav-pills navbar-left">
+    //           <li><a onClick={this._group}>Group</a></li>
+    //           <li><a type='submit' onClick={this._ungroup}>Ungroup</a></li>
+    //         </ul>
+    //         <ul className="nav nav-pills navbar-right">
+    //           <li><a type='submit' onClick={this._deletePollBatch}>Delete</a></li>
+    //           <li><a type='submit' onClick={this._deleteResponses}>Delete Responses</a></li>
+    //         </ul>
+    //       </div>
+    //     </nav>
+    //     {this.getPollGroupContent()}
+    //   </div>
+    // );
   }
 });
 

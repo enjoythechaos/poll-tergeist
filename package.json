@@ -19,6 +19,7 @@
     "babel-core": "^6.3.21",
     "babel-loader": "^6.2.0",
     "babel-preset-react": "^6.3.13",
+    "bootstrap": "^3.3.6",
     "flux": "^2.1.1",
     "history": "^1.13.1",
     "jquery": "^2.1.4",

@@ -12,7 +12,7 @@ class SessionsController < ApplicationController
       if params[:url]
         redirect_to root_url + "#" + params[:url]
       else
-        redirect_to root_url
+        redirect_to root_url + "#/users/" + @user.id + "/polls"
       end
     else
       flash[:errors] = ["Invalid Log In Credentials"]

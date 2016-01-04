@@ -171,11 +171,15 @@ class User < ActiveRecord::Base
       body: "Less than $15,000"
     })
 
+    4.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+
     ac = AnswerChoice.create({
       poll_id: p.id,
       letter: "Z",
       body: "$15,001 - $20,000"
     })
+
+    7.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
 
     ac = AnswerChoice.create({
       poll_id: p.id,
@@ -183,11 +187,15 @@ class User < ActiveRecord::Base
       body: "$20,001 - $30,000"
     })
 
+    4.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+
     ac = AnswerChoice.create({
       poll_id: p.id,
       letter: "Z",
       body: "$30,001 - $40,000"
     })
+
+    3.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
 
     ac = AnswerChoice.create({
       poll_id: p.id,
@@ -195,11 +203,15 @@ class User < ActiveRecord::Base
       body: "$40,001 - $50,000"
     })
 
+    2.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+
     ac = AnswerChoice.create({
       poll_id: p.id,
       letter: "Z",
       body: "$50,001 - $60,000"
     })
+
+    4.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
 
     ac = AnswerChoice.create({
       poll_id: p.id,
@@ -207,11 +219,15 @@ class User < ActiveRecord::Base
       body: "$60,001 - $70,000"
     })
 
+    3.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+
     ac = AnswerChoice.create({
       poll_id: p.id,
       letter: "Z",
       body: "$70,001 - $80,000"
     })
+
+    6.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
 
     ac = AnswerChoice.create({
       poll_id: p.id,
@@ -219,11 +235,15 @@ class User < ActiveRecord::Base
       body: "$80,001 - $90,000"
     })
 
+    5.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+
     ac = AnswerChoice.create({
       poll_id: p.id,
       letter: "Z",
       body: "$90,001 - $100,000"
     })
+
+    2.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
 
     ac = AnswerChoice.create({
       poll_id: p.id,
@@ -231,11 +251,15 @@ class User < ActiveRecord::Base
       body: "$100,001 - $125,000"
     })
 
+    4.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+
     ac = AnswerChoice.create({
       poll_id: p.id,
       letter: "Z",
       body: "$125,001 - $150,000"
     })
+
+    7.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
 
     ac = AnswerChoice.create({
       poll_id: p.id,
@@ -243,17 +267,23 @@ class User < ActiveRecord::Base
       body: "$150,001 - $175,000"
     })
 
+    3.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+
     ac = AnswerChoice.create({
       poll_id: p.id,
       letter: "Z",
       body: "$175,001 - $200,000"
     })
 
+    1.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+
     ac = AnswerChoice.create({
       poll_id: p.id,
       letter: "Z",
       body: "Over $200,000"
     })
+
+    1.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
 
     p = Poll.create({
       question: "How many times did you fly this year?",

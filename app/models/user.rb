@@ -49,7 +49,7 @@ class User < ActiveRecord::Base
       body: "Yes"
     })
 
-    27.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+#    27.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
 
     ac = AnswerChoice.create({
       poll_id: p.id,
@@ -57,7 +57,7 @@ class User < ActiveRecord::Base
       body: "No"
     })
 
-    16.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+#    16.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
 
     p = Poll.create({
       question: "Do you intend to vote in the next election?",
@@ -73,7 +73,7 @@ class User < ActiveRecord::Base
       body: "Yes"
     })
 
-    27.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+#    27.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
 
 
     pg = PollGroup.create({author_id: @guest.id, title: "Demographic Questions"})
@@ -92,7 +92,7 @@ class User < ActiveRecord::Base
       body: "1"
     })
 
-    15.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+#    15.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
 
     ac = AnswerChoice.create({
       poll_id: p.id,
@@ -100,7 +100,7 @@ class User < ActiveRecord::Base
       body: "2"
     })
 
-    21.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+#    21.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
 
     ac = AnswerChoice.create({
       poll_id: p.id,
@@ -108,7 +108,7 @@ class User < ActiveRecord::Base
       body: "3"
     })
 
-    33.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+#    33.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
 
     ac = AnswerChoice.create({
       poll_id: p.id,
@@ -116,7 +116,7 @@ class User < ActiveRecord::Base
       body: "4"
     })
 
-    26.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+#    26.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
 
     ac = AnswerChoice.create({
       poll_id: p.id,
@@ -124,7 +124,7 @@ class User < ActiveRecord::Base
       body: "5"
     })
 
-    7.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+#    7.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
 
     ac = AnswerChoice.create({
       poll_id: p.id,
@@ -132,7 +132,7 @@ class User < ActiveRecord::Base
       body: "6"
     })
 
-    4.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+#    4.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
 
     ac = AnswerChoice.create({
       poll_id: p.id,
@@ -140,7 +140,7 @@ class User < ActiveRecord::Base
       body: "7"
     })
 
-    0.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+#    0.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
 
     ac = AnswerChoice.create({
       poll_id: p.id,
@@ -148,7 +148,7 @@ class User < ActiveRecord::Base
       body: "8 or more"
     })
 
-    3.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+#    3.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
 
     p = Poll.create({
       question: "What is your household's annual income?",
@@ -262,7 +262,7 @@ class User < ActiveRecord::Base
       body: "0"
     })
 
-    37.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+#    37.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
 
     ac = AnswerChoice.create({
       poll_id: p.id,
@@ -270,7 +270,7 @@ class User < ActiveRecord::Base
       body: "1"
     })
 
-    24.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+#    24.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
 
     ac = AnswerChoice.create({
       poll_id: p.id,
@@ -278,7 +278,7 @@ class User < ActiveRecord::Base
       body: "2"
     })
 
-    14.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+#    14.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
 
     ac = AnswerChoice.create({
       poll_id: p.id,
@@ -286,7 +286,7 @@ class User < ActiveRecord::Base
       body: "3"
     })
 
-    5.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+#    5.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
 
     ac = AnswerChoice.create({
       poll_id: p.id,
@@ -294,7 +294,7 @@ class User < ActiveRecord::Base
       body: "4+"
     })
 
-    1.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+#    1.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
 
     pg = PollGroup.create({author_id: @guest.id, title: "Questions About Education"})
 
@@ -312,7 +312,7 @@ class User < ActiveRecord::Base
       body: "Some high school"
     })
 
-    71.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+#    71.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
 
     ac = AnswerChoice.create({
       poll_id: p.id,
@@ -320,7 +320,7 @@ class User < ActiveRecord::Base
       body: "High school graduate"
     })
 
-    107.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+#    107.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
 
     ac = AnswerChoice.create({
       poll_id: p.id,
@@ -328,7 +328,7 @@ class User < ActiveRecord::Base
       body: "Some college"
     })
 
-    445.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+#    445.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
 
     ac = AnswerChoice.create({
       poll_id: p.id,
@@ -336,7 +336,7 @@ class User < ActiveRecord::Base
       body: "College graduate"
     })
 
-    507.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+#    507.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
 
     ac = AnswerChoice.create({
       poll_id: p.id,
@@ -344,7 +344,7 @@ class User < ActiveRecord::Base
       body: "Some graduate school"
     })
 
-    302.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+#    302.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
 
     ac = AnswerChoice.create({
       poll_id: p.id,
@@ -352,7 +352,7 @@ class User < ActiveRecord::Base
       body: "Masters degree"
     })
 
-    428.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+#    428.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
 
     ac = AnswerChoice.create({
       poll_id: p.id,
@@ -360,7 +360,7 @@ class User < ActiveRecord::Base
       body: "Doctorate"
     })
 
-    20.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+#    20.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
 
     p = Poll.create({
       question: "What was your undergraduate GPA?",
@@ -376,7 +376,7 @@ class User < ActiveRecord::Base
       body: "Less than 2.0"
     })
 
-    38.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+#    38.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
 
     ac = AnswerChoice.create({
       poll_id: p.id,
@@ -384,7 +384,7 @@ class User < ActiveRecord::Base
       body: "Less than 2.01 - 2.50"
     })
 
-    44.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+#    44.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
 
     ac = AnswerChoice.create({
       poll_id: p.id,
@@ -392,7 +392,7 @@ class User < ActiveRecord::Base
       body: "2.51 - 2.75"
     })
 
-    63.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+#    63.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
 
     ac = AnswerChoice.create({
       poll_id: p.id,
@@ -400,7 +400,7 @@ class User < ActiveRecord::Base
       body: "2.76 - 3.0"
     })
 
-    78.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+#    78.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
 
     ac = AnswerChoice.create({
       poll_id: p.id,
@@ -408,7 +408,7 @@ class User < ActiveRecord::Base
       body: "Less than 3.01 - 3.25"
     })
 
-    84.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+#    84.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
 
     ac = AnswerChoice.create({
       poll_id: p.id,
@@ -416,7 +416,7 @@ class User < ActiveRecord::Base
       body: "3.26 - 3.50"
     })
 
-    96.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+#    96.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
 
     ac = AnswerChoice.create({
       poll_id: p.id,
@@ -424,7 +424,7 @@ class User < ActiveRecord::Base
       body: "3.51 - 3.75"
     })
 
-    74.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+#    74.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
 
     ac = AnswerChoice.create({
       poll_id: p.id,
@@ -432,7 +432,7 @@ class User < ActiveRecord::Base
       body: "3.76 - 3.9"
     })
 
-    58.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+#    58.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
 
     ac = AnswerChoice.create({
       poll_id: p.id,
@@ -440,7 +440,7 @@ class User < ActiveRecord::Base
       body: "3.91 - 3.95"
     })
 
-    24.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+#    24.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
 
     ac = AnswerChoice.create({
       poll_id: p.id,
@@ -448,7 +448,7 @@ class User < ActiveRecord::Base
       body: "Over 3.95"
     })
 
-    12.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+#    12.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
 
   end
 

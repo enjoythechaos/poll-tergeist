@@ -13,8 +13,6 @@ var PollEdit = React.createClass({
   },
 
   _onChange: function() {
-    var pollData = PollStore.getPollData();
-    pollData.toBeDeleted = [];
     this.setState({pollData: PollStore.getPollData()});
   },
 
@@ -37,21 +35,17 @@ var PollEdit = React.createClass({
     this.setState({pollData: newPollData});
   },
 
-  _deleteAnswerChoice: function(i, e) {
+  _deleteAnswerChoice: function(answerChoiceId, e) {
     e.preventDefault();
-    var answerChoiceId = this.state.pollData.answerChoices[i].id;
-    this.state.pollData.toBeDeleted.push(answerChoiceId);
-    this.setState({pollData: this.state.pollData});
-    debugger;
-    this.state.pollData.answerChoices.splice(i, 1);
-    this.setState({pollData: this.state.pollData});
+    this._updatePoll();
+    ApiUtil.deleteAnswerChoice(answerChoiceId);
   },
 
   _addAnswerChoice: function(e) {
     e.preventDefault();
     var pollId = this.state.pollData.poll.id;
-    this.state.pollData.answerChoices.push({id: null, poll_id: pollId, letter: "Z", body: ""});
-    this.setState({pollData: this.state.pollData});
+    this._updatePoll();
+    ApiUtil.addAnswerChoice(pollId);
   },
 
   _updatePoll: function() {
@@ -73,7 +67,7 @@ var PollEdit = React.createClass({
     return (
       this.state.pollData.answerChoices.map(function(answerChoice, i){
         return (
-          <div key={i} className="poll-form-line clearfix">
+          <div key={answerChoice.id} className="poll-form-line clearfix">
             <div className="poll-form-first-field">
               Answer Choice:
             </div>
@@ -81,7 +75,7 @@ var PollEdit = React.createClass({
               <input type='text' size='60' onChange={this._updateAnswerChoice.bind(null, i)} value={answerChoice.body}></input>
             </div>
             <div className="poll-form-button-field">
-              <button type='button' className="btn btn-default" onClick={this._deleteAnswerChoice.bind(null, i)}>Delete Answer Choice</button>
+              <button type='button' className="btn btn-default" onClick={this._deleteAnswerChoice.bind(null, answerChoice.id)}>Delete Answer Choice</button>
             </div>
           </div>
         );
@@ -112,7 +106,7 @@ var PollEdit = React.createClass({
             <button type='button' className="btn btn-default" onClick={this._addAnswerChoice}>Add Answer Choice</button>
           </div>
           <button type='button' className="btn btn-default" onClick={this._updatePollButton}>Update Poll</button>
-          <button type='button' className="btn btn-default" onClick={this._backToPollIndex}>Cancel</button>
+          <button type='button' className="btn btn-default" onClick={this._backToPollIndex}>Back to Poll Index Page</button>
         </div>
       </div>
     );

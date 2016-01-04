@@ -18,16 +18,23 @@ class Poll < ActiveRecord::Base
   through: :poll_group,
   source: :author
 
+  def url_string
+    return self.author.username.upcase + self.poll_identifier.to_s
+  end
+
   def answer_choices_with_totals
     @results = ActiveRecord::Base.connection.execute("
-      SELECT
-        answer_choices.id, answer_choices.body, COUNT(responses.answer_choice_id)
+      SELECT choices.id, choices.body, COUNT(responses.answer_choice_id)
       FROM
-        answer_choices INNER JOIN responses ON answer_choices.id = responses.answer_choice_id
-      WHERE
-        answer_choices.poll_id = #{self.id}
-      GROUP BY
-        answer_choices.id, answer_choices.body
+        (SELECT
+          answer_choices.body, answer_choices.id
+        FROM
+          answer_choices
+        WHERE
+          answer_choices.poll_id = #{self.id}) choices
+        LEFT OUTER JOIN responses ON choices.id = responses.answer_choice_id
+      GROUP BY choices.id, choices.body
+      ORDER BY choices.id;
     ")
   end
 end

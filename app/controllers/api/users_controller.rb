@@ -1,7 +1,4 @@
-class UsersController < ApplicationController
-  def new
-  end
-
+class Api::UsersController < ApplicationController
   def create
     username = params[:user][:username]
     password = params[:user][:password]
@@ -9,7 +6,7 @@ class UsersController < ApplicationController
     existing_user = User.find_by(username: username)
     if existing_user
       flash[:errors] = ["A user with that name already exists"]
-      redirect_to new_user_url
+      render status: :not_acceptable, json: flash[:errors]
       return
     end
 
@@ -19,13 +16,13 @@ class UsersController < ApplicationController
       user_id = @user.id
       @ungrouped_poll_group = PollGroup.new({author_id: user_id, title: "Ungrouped"})
       @ungrouped_poll_group.save
-      
+
       log_in!(@user)
       flash[:messages] = ["User Signed Up and Logged In Successfully"]
-      redirect_to root_url
+      render status: :ok, json: @user
     else
       flash[:errors] = @user.errors.full_messages
-      redirect_to new_user_url
+      render status: :not_acceptable, json: flash[:errors]
     end
   end
 end

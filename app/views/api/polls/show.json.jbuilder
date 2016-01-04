@@ -6,6 +6,7 @@ json.pollData do
     json.poll_group_id @poll.poll_group_id
     json.locked @poll.locked
     json.author_id @poll.author_id
+    json.url_string @poll.url_string
   end
 
   json.answerChoices @poll.answer_choices.order(:created_at) do |answer_choice|

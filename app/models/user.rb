@@ -8,7 +8,8 @@ class User < ActiveRecord::Base
   has_many :poll_groups,
   primary_key: :id,
   foreign_key: :author_id,
-  class_name: "PollGroup"
+  class_name: "PollGroup",
+  dependent: :destroy
 
   has_many :polls,
   through: :poll_groups,
@@ -21,6 +22,435 @@ class User < ActiveRecord::Base
   has_many :responses,
   through: :answer_choices,
   source: :responses
+
+  def self.create_guest_data
+    @guest = User.find_by(username: "guest")
+    if !@guest
+      @guest = User.new({username: "guest"})
+      @guest.password = "password"
+      @guest.save
+    else
+      PollGroup.where(author_id: @guest.id).destroy_all
+    end
+
+    pg = PollGroup.create({author_id: @guest.id, title: "Ungrouped"})
+
+    p = Poll.create({
+      question: "Do you have any pets?",
+      poll_identifier: 307,
+      poll_group_id: pg.id,
+      locked: false,
+      author_id: @guest.id
+    })
+
+    ac = AnswerChoice.create({
+      poll_id: p.id,
+      letter: "Z",
+      body: "Yes"
+    })
+
+    27.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+
+    ac = AnswerChoice.create({
+      poll_id: p.id,
+      letter: "Z",
+      body: "No"
+    })
+
+    16.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+
+    p = Poll.create({
+      question: "Do you intend to vote in the next election?",
+      poll_identifier: 509,
+      poll_group_id: pg.id,
+      locked: false,
+      author_id: @guest.id
+    })
+
+    ac = AnswerChoice.create({
+      poll_id: p.id,
+      letter: "Z",
+      body: "Yes"
+    })
+
+    27.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+
+
+    pg = PollGroup.create({author_id: @guest.id, title: "Demographic Questions"})
+
+    p = Poll.create({
+      question: "How many people live in your household?",
+      poll_identifier: 96,
+      poll_group_id: pg.id,
+      locked: false,
+      author_id: @guest.id
+    })
+
+    ac = AnswerChoice.create({
+      poll_id: p.id,
+      letter: "Z",
+      body: "1"
+    })
+
+    15.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+
+    ac = AnswerChoice.create({
+      poll_id: p.id,
+      letter: "Z",
+      body: "2"
+    })
+
+    21.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+
+    ac = AnswerChoice.create({
+      poll_id: p.id,
+      letter: "Z",
+      body: "3"
+    })
+
+    33.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+
+    ac = AnswerChoice.create({
+      poll_id: p.id,
+      letter: "Z",
+      body: "4"
+    })
+
+    26.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+
+    ac = AnswerChoice.create({
+      poll_id: p.id,
+      letter: "Z",
+      body: "5"
+    })
+
+    7.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+
+    ac = AnswerChoice.create({
+      poll_id: p.id,
+      letter: "Z",
+      body: "6"
+    })
+
+    4.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+
+    ac = AnswerChoice.create({
+      poll_id: p.id,
+      letter: "Z",
+      body: "7"
+    })
+
+    0.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+
+    ac = AnswerChoice.create({
+      poll_id: p.id,
+      letter: "Z",
+      body: "8 or more"
+    })
+
+    3.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+
+    p = Poll.create({
+      question: "What is your household's annual income?",
+      poll_identifier: 202,
+      poll_group_id: pg.id,
+      locked: false,
+      author_id: @guest.id
+    })
+
+    ac = AnswerChoice.create({
+      poll_id: p.id,
+      letter: "Z",
+      body: "Less than $15,000"
+    })
+
+    ac = AnswerChoice.create({
+      poll_id: p.id,
+      letter: "Z",
+      body: "$15,001 - $20,000"
+    })
+
+    ac = AnswerChoice.create({
+      poll_id: p.id,
+      letter: "Z",
+      body: "$20,001 - $30,000"
+    })
+
+    ac = AnswerChoice.create({
+      poll_id: p.id,
+      letter: "Z",
+      body: "$30,001 - $40,000"
+    })
+
+    ac = AnswerChoice.create({
+      poll_id: p.id,
+      letter: "Z",
+      body: "$40,001 - $50,000"
+    })
+
+    ac = AnswerChoice.create({
+      poll_id: p.id,
+      letter: "Z",
+      body: "$50,001 - $60,000"
+    })
+
+    ac = AnswerChoice.create({
+      poll_id: p.id,
+      letter: "Z",
+      body: "$60,001 - $70,000"
+    })
+
+    ac = AnswerChoice.create({
+      poll_id: p.id,
+      letter: "Z",
+      body: "$70,001 - $80,000"
+    })
+
+    ac = AnswerChoice.create({
+      poll_id: p.id,
+      letter: "Z",
+      body: "$80,001 - $90,000"
+    })
+
+    ac = AnswerChoice.create({
+      poll_id: p.id,
+      letter: "Z",
+      body: "$90,001 - $100,000"
+    })
+
+    ac = AnswerChoice.create({
+      poll_id: p.id,
+      letter: "Z",
+      body: "$100,001 - $125,000"
+    })
+
+    ac = AnswerChoice.create({
+      poll_id: p.id,
+      letter: "Z",
+      body: "$125,001 - $150,000"
+    })
+
+    ac = AnswerChoice.create({
+      poll_id: p.id,
+      letter: "Z",
+      body: "$150,001 - $175,000"
+    })
+
+    ac = AnswerChoice.create({
+      poll_id: p.id,
+      letter: "Z",
+      body: "$175,001 - $200,000"
+    })
+
+    ac = AnswerChoice.create({
+      poll_id: p.id,
+      letter: "Z",
+      body: "Over $200,000"
+    })
+
+    p = Poll.create({
+      question: "How many times did you fly this year?",
+      poll_identifier: 534,
+      poll_group_id: pg.id,
+      locked: false,
+      author_id: @guest.id
+    })
+
+    ac = AnswerChoice.create({
+      poll_id: p.id,
+      letter: "Z",
+      body: "0"
+    })
+
+    37.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+
+    ac = AnswerChoice.create({
+      poll_id: p.id,
+      letter: "Z",
+      body: "1"
+    })
+
+    24.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+
+    ac = AnswerChoice.create({
+      poll_id: p.id,
+      letter: "Z",
+      body: "2"
+    })
+
+    14.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+
+    ac = AnswerChoice.create({
+      poll_id: p.id,
+      letter: "Z",
+      body: "3"
+    })
+
+    5.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+
+    ac = AnswerChoice.create({
+      poll_id: p.id,
+      letter: "Z",
+      body: "4+"
+    })
+
+    1.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+
+    pg = PollGroup.create({author_id: @guest.id, title: "Questions About Education"})
+
+    p = Poll.create({
+      question: "What is your highest level of educational achievement?",
+      poll_identifier: 907,
+      poll_group_id: pg.id,
+      locked: false,
+      author_id: @guest.id
+    })
+
+    ac = AnswerChoice.create({
+      poll_id: p.id,
+      letter: "Z",
+      body: "Some high school"
+    })
+
+    71.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+
+    ac = AnswerChoice.create({
+      poll_id: p.id,
+      letter: "Z",
+      body: "High school graduate"
+    })
+
+    107.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+
+    ac = AnswerChoice.create({
+      poll_id: p.id,
+      letter: "Z",
+      body: "Some college"
+    })
+
+    445.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+
+    ac = AnswerChoice.create({
+      poll_id: p.id,
+      letter: "Z",
+      body: "College graduate"
+    })
+
+    507.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+
+    ac = AnswerChoice.create({
+      poll_id: p.id,
+      letter: "Z",
+      body: "Some graduate school"
+    })
+
+    302.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+
+    ac = AnswerChoice.create({
+      poll_id: p.id,
+      letter: "Z",
+      body: "Masters degree"
+    })
+
+    428.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+
+    ac = AnswerChoice.create({
+      poll_id: p.id,
+      letter: "Z",
+      body: "Doctorate"
+    })
+
+    20.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+
+    p = Poll.create({
+      question: "What was your undergraduate GPA?",
+      poll_identifier: 233,
+      poll_group_id: pg.id,
+      locked: false,
+      author_id: @guest.id
+    })
+
+    ac = AnswerChoice.create({
+      poll_id: p.id,
+      letter: "Z",
+      body: "Less than 2.0"
+    })
+
+    38.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+
+    ac = AnswerChoice.create({
+      poll_id: p.id,
+      letter: "Z",
+      body: "Less than 2.01 - 2.50"
+    })
+
+    44.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+
+    ac = AnswerChoice.create({
+      poll_id: p.id,
+      letter: "Z",
+      body: "2.51 - 2.75"
+    })
+
+    63.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+
+    ac = AnswerChoice.create({
+      poll_id: p.id,
+      letter: "Z",
+      body: "2.76 - 3.0"
+    })
+
+    78.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+
+    ac = AnswerChoice.create({
+      poll_id: p.id,
+      letter: "Z",
+      body: "Less than 3.01 - 3.25"
+    })
+
+    84.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+
+    ac = AnswerChoice.create({
+      poll_id: p.id,
+      letter: "Z",
+      body: "3.26 - 3.50"
+    })
+
+    96.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+
+    ac = AnswerChoice.create({
+      poll_id: p.id,
+      letter: "Z",
+      body: "3.51 - 3.75"
+    })
+
+    74.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+
+    ac = AnswerChoice.create({
+      poll_id: p.id,
+      letter: "Z",
+      body: "3.76 - 3.9"
+    })
+
+    58.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+
+    ac = AnswerChoice.create({
+      poll_id: p.id,
+      letter: "Z",
+      body: "3.91 - 3.95"
+    })
+
+    24.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+
+    ac = AnswerChoice.create({
+      poll_id: p.id,
+      letter: "Z",
+      body: "Over 3.95"
+    })
+
+    12.times { Response.create({answer_choice_id: ac.id, respondent_id: 1}) }
+
+  end
 
   def self.find_by_credentials(username, password)
     user = User.find_by(username: username)

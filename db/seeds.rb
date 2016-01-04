@@ -17,7 +17,7 @@ mike.save
 Poll.create({
   id: 1,
   question: "What's the most ridiculous thing you've seen today?",
-  poll_identifier: "MIKE29",
+  poll_identifier: 29,
   poll_group_id: 1,
   locked: false,
   author_id: mike.id
@@ -54,7 +54,7 @@ AnswerChoice.create({
 Poll.create({
   id: 2,
   question: "What time is it?",
-  poll_identifier: "MIKE39",
+  poll_identifier: 39,
   poll_group_id: 1,
   locked: false,
   author_id: mike.id
@@ -62,7 +62,7 @@ Poll.create({
 
 AnswerChoice.create({
   id: 5,
-  poll_id: 3,
+  poll_id: 2,
   letter: "A",
   body: "10:11 AM"
 })
@@ -77,7 +77,7 @@ AnswerChoice.create({
 Poll.create({
   id: 3,
   question: "How many Mountain Dews have you had today, dude?",
-  poll_identifier: "MIKE41",
+  poll_identifier: 41,
   poll_group_id: 1,
   locked: false,
   author_id: mike.id
@@ -114,7 +114,7 @@ AnswerChoice.create({
 Poll.create({
   id: 4,
   question: "Dude, where's my car?",
-  poll_identifier: "MIKE59",
+  poll_identifier: 59,
   poll_group_id: 1,
   locked: false,
   author_id: mike.id
@@ -157,7 +157,7 @@ PollGroup.create({
 Poll.create({
   id: 5,
   question: "How many siblings do you have?",
-  poll_identifier: "MIKE202",
+  poll_identifier: 202,
   poll_group_id: 2,
   locked: false,
   author_id: mike.id
@@ -201,7 +201,7 @@ AnswerChoice.create({
 Poll.create({
   id: 6,
   question: "How much money do you spend per week on groceries?",
-  poll_identifier: "MIKE555",
+  poll_identifier: 555,
   poll_group_id: 2,
   locked: false,
   author_id: mike.id
@@ -244,7 +244,7 @@ PollGroup.create({
 Poll.create({
   id: 7,
   question: "Who is your cell phone provider?",
-  poll_identifier: "MIKE291",
+  poll_identifier: 291,
   poll_group_id: 0,
   locked: false,
   author_id: mike.id
@@ -287,7 +287,7 @@ PollGroup.create({
 Poll.create({
   id: 8,
   question: "How much are you spending on Christmas presents this year?",
-  poll_identifier: "MIKE745",
+  poll_identifier: 745,
   poll_group_id: 3,
   locked: false,
   author_id: mike.id
@@ -324,7 +324,7 @@ AnswerChoice.create({
 Poll.create({
   id: 9,
   question: "How many hours per week do you spend watching television?",
-  poll_identifier: "MIKE924",
+  poll_identifier: 924,
   poll_group_id: 3,
   locked: false,
   author_id: mike.id
@@ -376,7 +376,7 @@ moonshine.save
 Poll.create({
   id: 10,
   question: "Can you please let me out?",
-  poll_identifier: "MOONSHINE44",
+  poll_identifier: 44,
   poll_group_id: 0,
   locked: false,
   author_id: moonshine.id
@@ -405,7 +405,7 @@ PollGroup.create({
 Poll.create({
   id: 11,
   question: "Can I chase the red dot around for a bit?",
-  poll_identifier: "MOONSHINE44",
+  poll_identifier: 31,
   poll_group_id: 5,
   locked: false,
   author_id: moonshine.id
@@ -435,7 +435,7 @@ AnswerChoice.create({
 Poll.create({
   id: 12,
   question: "How much catnip is left?",
-  poll_identifier: "MOONSHINE77",
+  poll_identifier: 77,
   poll_group_id: 5,
   locked:false,
   author_id: moonshine.id
@@ -465,7 +465,7 @@ AnswerChoice.create({
 Poll.create({
   id: 13,
   question: "How many nights per week do you eat fish?",
-  poll_identifier: "MOONSHINE592",
+  poll_identifier: 592,
   poll_group_id: 5,
   locked:false,
   author_id: moonshine.id
@@ -508,7 +508,7 @@ PollGroup.create({
 Poll.create({
   id: 14,
   question: "How much longer do you plan on sitting in my chair?",
-  poll_identifier: "MOONSHINE925",
+  poll_identifier: 925,
   poll_group_id: 6,
   locked:false,
   author_id: moonshine.id
@@ -538,7 +538,7 @@ AnswerChoice.create({
 Poll.create({
   id: 15,
   question: "How much longer until I can get out of this awful cat carrier?",
-  poll_identifier: "MOONSHINE749",
+  poll_identifier: 749,
   poll_group_id: 6,
   locked:false,
   author_id: moonshine.id
@@ -575,7 +575,7 @@ AnswerChoice.create({
 Poll.create({
   id: 16,
   question: "How many toys are you planning on getting me for Christmas?",
-  poll_identifier: "MOONSHINE945",
+  poll_identifier: 945,
   poll_group_id: 6,
   locked:false,
   author_id: moonshine.id
@@ -627,7 +627,7 @@ tibby.save
 Poll.create({
   id: 17,
   question: "Where's something I can sit on and get fur all over?",
-  poll_identifier: "TIBBY22",
+  poll_identifier: 22,
   poll_group_id: 7,
   locked: false,
   author_id: tibby.id
@@ -659,3 +659,8 @@ PollGroup.create({
   author_id: 3,
   title: "Ungrouped"
 })
+
+ActiveRecord::Base.connection.execute("SELECT pg_catalog.setval(pg_get_serial_sequence('users', 'id'), MAX(id)) FROM users;")
+ActiveRecord::Base.connection.execute("SELECT pg_catalog.setval(pg_get_serial_sequence('polls', 'id'), MAX(id)) FROM polls;")
+ActiveRecord::Base.connection.execute("SELECT pg_catalog.setval(pg_get_serial_sequence('poll_groups', 'id'), MAX(id)) FROM poll_groups;")
+ActiveRecord::Base.connection.execute("SELECT pg_catalog.setval(pg_get_serial_sequence('answer_choices', 'id'), MAX(id)) FROM answer_choices;")

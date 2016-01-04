@@ -4,11 +4,12 @@ var StartPageTopBar = require('./start_page_top_bar');
 var StartPage = React.createClass({
   render: function() {
     return (
-      <div>
-        <StartPageTopBar/>
-      </div>
+        <div>
+          <StartPageTopBar/>
+          <div className="splash-container clearfix">
+          </div>
+        </div>
     );
-    //Splash component will go beneath the StartPageTopBar.
   }
 });
 

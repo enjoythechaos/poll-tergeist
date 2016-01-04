@@ -20,13 +20,17 @@
     "babel-loader": "^6.2.0",
     "babel-preset-react": "^6.3.13",
     "bootstrap": "^3.3.6",
+    "chart.js": "^1.0.2",
     "flux": "^2.1.1",
     "history": "^1.13.1",
     "jquery": "^2.1.4",
     "react": "^0.14.3",
     "react-addons-linked-state-mixin": "^0.14.2",
+    "react-bootstrap": "^0.28.1",
+    "react-chart": "0.0.1",
+    "react-chartjs": "^0.6.0",
     "react-dom": "^0.14.3",
-    "react-router": "^1.0.2",
+    "react-router": "^1.0.3",
     "webpack": "^1.12.9"
   }
 }

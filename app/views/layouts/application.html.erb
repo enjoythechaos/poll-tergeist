@@ -1,25 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <link href='https://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Titillium+Web:700,900,600,400' rel='stylesheet' type='text/css'>
   <title>Polltergeist</title>
   <%= stylesheet_link_tag    'application', media: 'all' %>
   <%= javascript_include_tag 'application' %>
   <%= csrf_meta_tags %>
 </head>
 <body>
-
-<!-- <%= flash[:errors].join("<BR>").html_safe if flash[:errors] %>
-<%= "<BR>".html_safe if flash[:errors] %>
-<%= flash[:messages].join("<BR>").html_safe if flash[:messages] %>
-<%= "<BR>".html_safe if flash[:messages] %>
-
-<% if signed_in? %>
-  Hello, <%= current_user.username %>
-  <%= button_to "Sign Out", session_url, method: :delete %>
-<% else %>
-  <%= link_to "Sign In", new_session_url, method: :get %>
-  <%= link_to "Sign Up", new_user_url, method: :get %>
-<% end %> -->
 
 <%= yield %>
 

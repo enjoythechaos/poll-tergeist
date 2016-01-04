@@ -5,14 +5,26 @@ var Auth = {
   mixins: [ History ],
   componentWillMount: function() {
     ApiUtil.getCurrentUser(function(response){
-      var m = this.props.location.pathname.match(/\/users\/([0-9]+).*/);
-      if (m && parseInt(m[1]) !== response.id) {
-        console.log("Redirect to Log In page because there isn't a user who is both logged in and authorized to view this page.");
-        debugger;
-        var m = location.hash.match(/^#(.*)$/);
-        location.replace("session/new?url=" + m[1]);
+      if (response.responseJSON.id === 0) {
+        // Redirect to the log in page.  There is no logged in user.  This mixin wouldn't
+        // have been called unless a user needed to be logged in.
+        location.replace("/");
+      }
+      if (this.props.location !== undefined) {
+        var m = this.props.location.pathname.match(/\/users\/([0-9]+).*/);
+        if (m === null || m === undefined || parseInt(m[1]) === response.responseJSON.id) {
+          // Allow the user through.  They are the authorized user.
+          this.setState({currentUser: response.responseJSON});
+        } else {
+          // Redirect to the log in page, since the user is trying to access a URL that contains a userId,
+          // but the currently logged in user isn't the user authorized to view the URL.
+          location.replace("/");
+        }
       } else {
-        console.log("Allow to go to page.  Either the page doesn't require a certain user to be authorized, or the logged in user is the authorized user for this page.");
+        // Don't restrict the user.  The logic wouldn't have branched here unless this was a child component,
+        // and any restriction should have already been handled by the parent component that had this.props.location defined.
+        // Therefore, the child is assuming that the user is authorized and is using Auth to define the current user.
+        this.setState({currentUser: response.responseJSON});
       }
     }.bind(this));
   }

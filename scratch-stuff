@@ -1,0 +1,30 @@
+application.html.erb
+Also fix application.scss
+
+<link href='https://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
+
+Back in SF:
+  Poll-tergeist logo
+  Get custom domain name
+  Image for splash page
+  Fix font colors - need internet access for style sheet examples.
+  Fix nav bar so it uses anchors instead of Bootstrap buttons
+  Replace Add / Delete buttons with bootstrap-style graphics.  - Add ability to lock and unlock polls.
+
+Here:
+  X Figure out what's up with poll display
+  X Add a "waiting" graphic for display on guest log in
+  X Fix poll edit so that it functions like a normal poll edit page.
+  - Store for current user
+
+Review code:
+  get rid of console.log, alert, and debugger statements
+  have a very careful look at comments
+  look for functions that are never called by other functions
+    - colortest controller
+    - update_batch now in answerChoices
+  fix databases - get rid of unneeded columns, not nulls, etc.
+    - letter isn't really being used in AnswerChoice
+    - respondent_id isn't really being used in Responses
+  bring guest data creation code into a new file.
+  there is a big-ass bug having to do with dependent destroy.

@@ -10,15 +10,20 @@ var PollForm = React.createClass({
     return (
       this.props.answerChoices.map(function(answerChoice, idx){
         return (
-          <div key={idx}>
-            <label>
+          <div key={idx} className="poll-form-line clearfix">
+            <div className="poll-form-first-field">
               Answer Choice:
+            </div>
+            <div className="poll-form-text-field">
               <input type='text'
+                     size='60'
                      onChange={this.props._updateAnswerChoice.bind(null, idx)}
                      value={answerChoice.answerText}
               ></input>
-            </label>
-            <button type='submit' onClick={this.props._deleteAnswerChoice.bind(null, idx)}>Delete</button>
+            </div>
+            <div className="poll-form-button-field">
+              <button type='button' className="btn btn-default" onClick={this.props._deleteAnswerChoice.bind(null, idx)}>Delete</button>
+            </div>
           </div>
         );
       }.bind(this))
@@ -28,15 +33,25 @@ var PollForm = React.createClass({
   render: function() {
 
     return(
-      <div>
-        <label>
-          Poll Question:
-          <input type='text' onChange={this.props._updateQuestionText} value={this.props.questionText} autoFocus onFocus={this._fixCursor}></input>
-          <button type='submit' onClick={this.props._deletePollForm}>Delete Poll</button>
-        </label>
+      <div className="poll-form clearfix">
+        <div className="poll-form-line clearfix">
+          <div className="poll-form-first-field">
+            Poll Question:
+          </div>
+          <div className="poll-form-text-field">
+            <input type='text' size='60' onChange={this.props._updateQuestionText} value={this.props.questionText} autoFocus onFocus={this._fixCursor}></input>
+          </div>
+          <div className="poll-form-button-field">
+            <button type='button' className="btn btn-default" onClick={this.props._deletePollForm}>Delete Poll</button>
+          </div>
+        </div>
         {this.getAnswerChoices()}
         <br></br>
-        <button type='submit' onClick={this.props._addAnswerChoice}>Add Answer</button>
+        <div className="poll-form-line clearfix">
+          <div className="poll-form-first-field">
+            <button type='button' className="btn btn-default" onClick={this.props._addAnswerChoice}>Add Answer</button>
+          </div>
+        </div>
       </div>
     );
   }

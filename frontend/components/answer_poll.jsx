@@ -14,7 +14,7 @@ var AnswerPoll = React.createClass({
 
   componentDidMount: function() {
     this.listenerToken = PollStore.addListener(this._onChange);
-    ApiUtil.fetchPollAndAnswerChoices(this.props.params.pollId);
+    ApiUtil.fetchPollAndAnswerChoicesByPollIdentifier(this.props.params.pollId);
   },
 
   componentWillUnmount: function() {
@@ -35,12 +35,14 @@ var AnswerPoll = React.createClass({
     }
 
     return (
-      <div>
-        <div>
+      <div className="center">
+        <div className="poll-result-question">
           {this.state.pollData.poll.question}
         </div>
-        <AnswerChoices answerChoices={this.state.pollData.answerChoices} _selectAnswer={this._selectAnswer}/>
-        <button type='submit' onClick={this._createResponse}>Submit Answers</button>
+        <div>
+          <AnswerChoices answerChoices={this.state.pollData.answerChoices} _selectAnswer={this._selectAnswer}/>
+          <button type="button" className="btn btn-default" onClick={this._createResponse}>Submit Answer</button>
+        </div>
       </div>
     );
   }

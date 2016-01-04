@@ -44,14 +44,6 @@ var Poll = React.createClass({
         </div>
       </div>
     );
-    // return (
-    //   <div>
-    //     <div>
-    //       <input type='checkbox' checked={this.props._isChecked(this.props.poll.id)} onClick={this._onClick}></input>
-    //       {this.props.poll.question} <a type='submit' onClick={this._redirectToPollEdit}>Edit</a> | <a type='submit' onClick={this._redirectToPollResult}>View Results</a>
-    //     </div>
-    //   </div>
-    // );
   }
 });
 

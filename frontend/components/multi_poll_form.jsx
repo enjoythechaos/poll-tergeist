@@ -2,6 +2,7 @@ var React = require('react');
 var PollForm = require('./poll_form');
 var PollUtil = require('../util/poll_util');
 var Auth = require('./auth');
+var NavBarTop = require('./nav_bar_top');
 
 var MultiPollForm = React.createClass({
   mixins: [Auth],
@@ -22,7 +23,6 @@ var MultiPollForm = React.createClass({
         this.props.history.pushState(null, "/users/" + this.props.params.userId + "/polls");
       }.bind(this)
     };
-    debugger;
     PollUtil.createBatch(options);
   },
 
@@ -85,12 +85,23 @@ var MultiPollForm = React.createClass({
   render: function() {
     return (
       <div>
-        {this.getMultiPollForm()}
-        Add a Poll:
-        <br></br>
-        <input type='text' onChange={this._addPollForm} value={this.state.questionText}/>
-        <br></br>
-        <button type='submit' onClick={this._createAll}>Create Polls</button>
+        <div>
+          <NavBarTop userId={this.props.params.userId}/>
+        </div>
+        <div className="center clearfix">
+          {this.getMultiPollForm()}
+          <div className="new-poll-field clearfix">
+            <div className="poll-form-first-field">
+              Add a Poll:
+            </div>
+            <div className="poll-form-text-field">
+              <input type='text' size='60' onChange={this._addPollForm} value={this.state.questionText}/>
+            </div>
+            <div className="poll-form-button-field">
+              <button type='button' className="btn btn-default" onClick={this._createAll}>Create Polls</button>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

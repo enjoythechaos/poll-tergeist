@@ -16,25 +16,4 @@ class Api::AnswerChoicesController < ApplicationController
     end
     render text: "ok"
   end
-
-  def update_batch
-    answer_choices = params[:answerChoices]
-    answer_choices.each do |index, answer_choice|
-      id = answer_choice[:id]
-      @answer_choice = AnswerChoice.find(id) rescue nil
-      if @answer_choice
-        @answer_choice.poll_id = answer_choice[:poll_id].to_i
-        @answer_choice.letter = answer_choice[:letter]
-        @answer_choice.body = answer_choice[:body]
-        @answer_choice.save
-      else
-        # The answer choice was deleted elsewhere and needs to be added as a new one.
-      end
-    end
-    render text: "ok!"
-  end
-
-  def update
-    fail
-  end
 end

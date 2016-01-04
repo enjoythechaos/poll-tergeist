@@ -1,8 +1,38 @@
 var ApiActions = require('../actions/api_actions');
 
 var ApiUtil = {
+  logIn: function(options) {
+    $.ajax({
+      url: "/api/session",
+      method: "POST",
+      data: {user: {username: options.username, password: options.password}},
+      complete: options.complete
+    });
+  },
+
+  signUp: function(options) {
+    $.ajax({
+      url: "/api/users",
+      method: "POST",
+      data: {user: {username: options.username, password: options.password}},
+      complete: options.complete
+    });
+  },
+
+  logOut: function(callBack) {
+    $.ajax({
+      url: "/api/session",
+      type : "DELETE",
+      complete: callBack
+    });
+  },
+
   getCurrentUser: function(callBack) {
-    $.get("/api/session", {}, callBack);
+    $.ajax({
+      url: "/api/session",
+      method: "GET",
+      complete: callBack
+    });
   },
 
   getPollGroupsFor: function(userId) {
@@ -30,8 +60,19 @@ var ApiUtil = {
 
   fetchPollAndAnswerChoices: function(pollId) {
     $.get("/api/polls/" + pollId, {}, function(result) {
+      debugger;
       ApiActions.fetchPollAndAnswerChoices(result.pollData);
     });
+  },
+
+  fetchPollAndAnswerChoicesByPollIdentifier: function(pollId) {
+    var m = pollId.match(/^([a-zA-Z]+)([0-9]+)$/)
+    if (m !== null) {
+      $.get("/api/polls/" + pollId + "/get_by_poll_identifier", {}, function(result) {
+        debugger;
+        ApiActions.fetchPollAndAnswerChoices(result.pollData);
+      });
+    }
   },
 
   deleteAnswerChoice: function(answerChoiceId) {
@@ -78,13 +119,11 @@ var ApiUtil = {
   },
 
   deleteResponses: function(checkedPolls) {
-    console.log("Got into ApiUtil.deleteResponses");
     $.ajax({
       url: "api/polls/delete_responses",
       data: {polls: checkedPolls},
       method: "DELETE",
-      complete: function(results){
-        console.log("Got into ApiUtil.deleteResponses success callback");
+      complete: function(results) {
         ApiActions.receivePollGroups(results.responseJSON.pollGroups);
       }
     });
@@ -108,19 +147,12 @@ var ApiUtil = {
     var answerChoices = pollData.answerChoices;
     var that = this;
     $.ajax({
-      url: "api/answer_choices/update_batch",
-      data: {answerChoices: answerChoices},
+      url: "/api/polls/update_with_answer_choices",
+      data: pollData,
       type: "PATCH",
-      complete: function() {
-        $.ajax({
-          url: "api/polls/" + pollId,
-          type: "PUT",
-          data: {poll: poll},
-          complete: function(){
-            //callBack();
-            that.fetchPollAndAnswerChoices(pollId);
-          }
-        });
+      complete: function(response) {
+        debugger;
+        ApiActions.fetchPollAndAnswerChoices(response.responseJSON.pollData);
       }
     });
   }

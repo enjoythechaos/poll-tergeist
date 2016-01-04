@@ -17,7 +17,7 @@ var PollGroup = React.createClass({
   },
 
   getSymbolContent: function() {
-    var symbolContent = <div className="symbol-slot">.</div>;
+    var symbolContent = <div className="symbol-slot">&nbsp;</div>;
     if (this.props.polls.length > 0) {
       if (this.state.showChildren) {
         symbolContent = <div onClick={this._toggleShow} className="glyphicon glyphicon-triangle-bottom symbol-slot"></div>;
@@ -30,7 +30,7 @@ var PollGroup = React.createClass({
 
   getTitleContent: function() {
     if (this.state.title !== 'Ungrouped' && this.state.editTitle) {
-      return <input type='text' value={this.state.title} onChange={this._updateTitle}></input>;
+      return <input type='text' size='60' value={this.state.title} onChange={this._updateTitle}></input>;
     } else {
       return <b>{this.state.title}</b>;
     }

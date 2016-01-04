@@ -17,32 +17,215 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
-.sidebar {
-  float: left;
+html, body, header, nav, h1, a,
+ul, li, strong, main, button, i,
+section, img, div, h2, p, form,
+fieldset, label,
+span, article, footer, time, small {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font: inherit;
+  color: inherit;
+  text-align: inherit;
+  text-decoration: inherit;
+  vertical-align: inherit;
+  box-sizing: inherit;
+  background: transparent;
+}
+
+.top-bar {
+  background: #000077;
+  color: #CCDDFF;
+}
+
+.top-bar-nav {
+  float: none;
+  margin-left: auto;
+  margin-right: auto;
+  width: 1300px;
+}
+
+.top-bar-list {
   display: inline-block;
-  width: 200px;
-  background-color: #f00;
+}
+
+.top-bar-right-group {
+  display: inline-block;
+  float: right;
+}
+
+.top-bar-list li {
+  display: inline-block;
+  float: left;
+}
+
+.top-bar a {
+  color: inherit;
+  display: inline-block;
+  padding: 10px;
+  bottom-padding: 5px;
+  text-decoration: none;
+  font-size: 24px;
+}
+
+.top-bar-list a:hover {
+  color: #000077;
+  background: #CCDDFF;
+}
+
+.logo {
+  display: inline-block;
+  float: left;
+  top-padding: 5px;
+  bottom-padding: 2px;
+  font-family: 'Titillium Web', sans-serif;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.first-l {
+  font-size: 26px;
+  color: #f00;
+  font-weight: 900;
+}
+
+.second-l {
+  color: #ffff00;
+}
+
+.splash-container {
+  height: 800px;
+  float: none;
+  margin-left: auto;
+  margin-right: auto;
+  width: 1300px;
+  background: url("evp-50474-full.jpg");
+  background-size: cover;
+}
+
+.poll-result-question {
+  margin-top: 10px;
+  font-size: 30px;
+  background-color: #CCDDFF;
+  border: 1px solid #000;
+  padding: 20px;
+}
+
+.poll-result-answer-choice {
+  font-size: 24px;
+  padding: 20px;
+}
+
+body {
+  font-family: 'Droid Sans', sans-serif;
+  font-size: 20px;
+}
+
+.my-modal {
+  width: 400px;
+}
+
+.center {
+  float: none;
+  margin-left: auto;
+  margin-right: auto;
+  width: 1000px;
 }
 
 .main-content {
   float: left;
   display: inline-block;
-  width: 900px;
+  width: 1000px;
+}
+
+.poll-form {
+  background-color: #f0f0f0;
+  border-radius: 0px;
+  padding: 15px;
+  margin: 15px;
+  width: 1000px;
+  border: 1px #000 solid;
+}
+
+.new-poll-field{
+  width: 800px;
+  border: 1px #000 solid;
+  margin: 15px;
+  padding: 15px;
+  border-radius: 0px;
+  background-color: #f0f0ff
+}
+
+.poll-form-line {
+  padding: 10px;
+}
+
+.my-modal-line {
+  padding: 10px;
+}
+
+.poll-form-first-field {
+  float: left;
+  display: inline-block;
+  width: 150px;
+}
+
+.my-modal-first-field {
+  display: inline-block;
+  float: left;
+  width: 120px;
+}
+
+.poll-form-text-field {
+  float: left;
+  display: inline-block;
+  width: 650px;
+}
+
+.error {
+  color: #f00;
+}
+
+.my-modal-second-field {
+  display: inline-block;
+  float: left;
+  width: 200px;
+}
+
+.poll-form-button-field{
+  float: left;
+  display: inline-block;
+  width: 100px;
+}
+
+.right-margin {
+  margin-right: 50px;
 }
 
 .poll-index-element {
   float: left;
   display: inline-block;
-  width: 900px;
-  padding: 5px;
+  width: 1000px;
+  padding: 10px;
+  font-size: 18px;
 }
 
 .poll-index-pollgroup {
-  background-color: #e0e0e0;
+  background-color: #6699FF;
+}
+
+.poll-index-pollgroup:hover {
+  background-color: #3366CC;
 }
 
 .poll-index-poll {
-  background-color: #f0f0f0;
+  background-color: #CCDDFF;
+}
+
+.poll-index-poll:hover {
+  background-color: #CCCCCC;
 }
 
 .symbol-slot {
@@ -54,7 +237,7 @@
 .title-slot {
   float: left;
   display: inline-block;
-  width: 400px;
+  width: 700px;
 }
 
 .first-option {
@@ -69,27 +252,35 @@
   width: 80px;
 }
 
-.center {
-     float: none;
-     margin-left: auto;
-     margin-right: auto;
-     width: 500px;
+.poll-index-button-bar {
+  display: inline-block;
+  width: 1000px;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-// html, body, header, nav, h1, a,
-// ul, li, strong, main, button, i,
-// section, img, div, h2, p, form,
-// fieldset, label, input, textarea,
-// span, article, footer, time, small {
-//   margin: 0;
-//   padding: 0;
-//   border: 0;
-//   outline: 0;
-//   font: inherit;
-//   color: inherit;
-//   text-align: inherit;
-//   text-decoration: inherit;
-//   vertical-align: inherit;
-//   box-sizing: inherit;
-//   background: transparent;
-// }
+.poll-index-left-buttons {
+  float: left;
+}
+
+.poll-index-right-buttons {
+  display: inline-block;
+  float: right;
+}
+
+.poll-index-button-slot {
+  display: inline-block;
+  width: 150px;
+}
+
+.poll_index-button-space {
+  display: inline-block;
+  width: 5px;
+}
+
+.poll-index-double-button-slot {
+  display: inline-block;
+  width: 300px;
+}

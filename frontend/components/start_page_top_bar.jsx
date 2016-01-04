@@ -54,7 +54,7 @@ var StartPageTopBar = React.createClass({
         }
       }.bind(this),
     }
-    this.setState({errors: "Regenerating the sample data for you.  This usually takes about 15 seconds."})
+    this.setState({errors: "Regenerating the sample data for you.  This should only take a few seconds."})
     ApiUtil.logIn(options);
   },
 

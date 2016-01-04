@@ -22,6 +22,4 @@ PollGroupStore.receivePollGroups = function(pollGroups) {
   _pollGroups = pollGroups;
 };
 
-window.PollGroupStore = PollGroupStore;
-
 module.exports = PollGroupStore;

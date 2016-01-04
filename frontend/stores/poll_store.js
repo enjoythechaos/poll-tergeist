@@ -18,6 +18,4 @@ PollStore.getPollData = function() {
   return _pollData;
 };
 
-window.PollStore = PollStore;
-
 module.exports = PollStore;

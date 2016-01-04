@@ -132,6 +132,4 @@ var PollIndexPage = React.createClass({
   }
 });
 
-window.PollIndexPage = PollIndexPage;
-
 module.exports = PollIndexPage;

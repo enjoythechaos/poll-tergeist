@@ -107,6 +107,4 @@ var PollGroup = React.createClass({
   }
 });
 
-window.PollGroup = PollGroup;
-
 module.exports = PollGroup;

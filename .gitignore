@@ -22,4 +22,6 @@ node_modules
 # Ignore bundle.js
 /app/assets/javascripts/bundle.js
 
+/config/db/seeds.rb
+
 webpack.config.js.old

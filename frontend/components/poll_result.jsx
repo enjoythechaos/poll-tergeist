@@ -31,7 +31,6 @@ var PollResult = React.createClass({
   getChart: function() {
     var labels = [];
     var data = [];
-    debugger;
     for(var i=0; i < this.state.pollResult.results.length; i++) {
       labels.push(String.fromCharCode("A".charCodeAt(0) + i));
       data.push(this.state.pollResult.results[i].count);
@@ -110,7 +109,7 @@ var PollResult = React.createClass({
   getResults: function() {
     return this.state.pollResult.results.map(function(result, i){
       return (
-          <div className="poll-result-answer-choice clearfix">
+          <div key={i} className="poll-result-answer-choice clearfix">
             <div style={{width: 200, display: 'inline-block'}}>
               {String.fromCharCode("A".charCodeAt(0) + i)}
             </div>
@@ -129,7 +128,6 @@ var PollResult = React.createClass({
     if (this.state.pollResult === null) {
       return (<div>Fetching Poll Results</div>);
     }
-   debugger;
    return (
      <div>
        <div>

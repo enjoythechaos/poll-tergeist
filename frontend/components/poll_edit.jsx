@@ -42,7 +42,6 @@ var PollEdit = React.createClass({
     var answerChoiceId = this.state.pollData.answerChoices[i].id;
     this.state.pollData.toBeDeleted.push(answerChoiceId);
     this.setState({pollData: this.state.pollData});
-    debugger;
     this.state.pollData.answerChoices.splice(i, 1);
     this.setState({pollData: this.state.pollData});
   },

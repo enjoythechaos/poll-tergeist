@@ -14,6 +14,12 @@ var Poll = React.createClass({
     }
   },
 
+  _redirectToLive: function(e) {
+    e.preventDefault();
+    debugger;
+    this.history.pushState(null, "/answer/" + this.props.poll.url_string, null);
+  },
+
   _redirectToPollEdit: function(e) {
     e.preventDefault();
     this.history.pushState(null, "/users/" + this.props.poll.author_id + "/polls/" + this.props.poll.id + "/edit", null);
@@ -37,9 +43,12 @@ var Poll = React.createClass({
           {this.props.poll.question}
         </div>
         <div className="first-option">
-          <a type='submit' onClick={this._redirectToPollEdit}>Edit</a>
+        <a type='submit' onClick={this._redirectToPollEdit}>Edit</a>
         </div>
         <div className="second-option">
+          <a type='submit' onClick={this._redirectToLive}>Live</a>
+        </div>
+        <div className="third-option">
           <a type='submit' onClick={this._redirectToPollResult}>Results</a>
         </div>
       </div>

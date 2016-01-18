@@ -2,8 +2,11 @@ var React = require('react');
 var PollStore = require('../stores/poll_store');
 var ApiUtil = require('../util/api_util');
 var AnswerChoices = require('./answer_choices');
+var History = require('react-router').History;
 
 var AnswerPoll = React.createClass({
+  mixins: [History],
+
   getInitialState: function() {
     return {pollData: null, selectedAnswerChoiceId: null};
   },
@@ -26,7 +29,10 @@ var AnswerPoll = React.createClass({
   },
 
   _createResponse: function() {
-    ApiUtil.createResponse(this.state.selectedAnswerChoiceId);
+    ApiUtil.createResponse(this.state.selectedAnswerChoiceId, function(){
+      debugger;
+      this.history.pushState(null, "/thanks", null);
+    }.bind(this));
   },
 
   render: function() {

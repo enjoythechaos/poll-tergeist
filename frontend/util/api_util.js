@@ -60,7 +60,6 @@ var ApiUtil = {
 
   fetchPollAndAnswerChoices: function(pollId) {
     $.get("/api/polls/" + pollId, {}, function(result) {
-      debugger;
       ApiActions.fetchPollAndAnswerChoices(result.pollData);
     });
   },
@@ -69,7 +68,6 @@ var ApiUtil = {
     var m = pollId.match(/^([a-zA-Z]+)([0-9]+)$/)
     if (m !== null) {
       $.get("/api/polls/" + pollId + "/get_by_poll_identifier", {}, function(result) {
-        debugger;
         ApiActions.fetchPollAndAnswerChoices(result.pollData);
       });
     }
@@ -135,10 +133,8 @@ var ApiUtil = {
     }.bind(this));
   },
 
-  createResponse: function(answerChoiceId) {
-    $.post("api/responses", {answerChoiceId: answerChoiceId}, function(pollId) {
-      this.fetchPollResult(pollId);
-    }.bind(this));
+  createResponse: function(answerChoiceId, callBack) {
+    $.post("api/responses", {answerChoiceId: answerChoiceId}, callBack);
   },
 
   updatePollAndAnswerChoices: function(pollData, callBack) {
@@ -150,10 +146,10 @@ var ApiUtil = {
       url: "/api/polls/update_with_answer_choices",
       data: pollData,
       type: "PATCH",
-      complete: function(response) {
-        debugger;
-        ApiActions.fetchPollAndAnswerChoices(response.responseJSON.pollData);
-      }
+      complete: callBack
+      // complete: function(response) {
+      //   ApiActions.fetchPollAndAnswerChoices(response.responseJSON.pollData);
+      // }
     });
   }
 };

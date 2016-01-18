@@ -7,6 +7,9 @@ var StartPage = React.createClass({
         <div>
           <StartPageTopBar/>
           <div className="splash-container clearfix">
+            <div className="splash-text clearfix">
+              Create polls, administer them to your audience, then view the results.
+            </div>
           </div>
         </div>
     );

@@ -53,7 +53,9 @@ var PollEdit = React.createClass({
   },
 
   _updatePollButton: function() {
+    debugger;
     ApiUtil.updatePollAndAnswerChoices(this.state.pollData, function(){
+      debugger;
       this.history.pushState(null, "/users/" + this.state.pollData.poll.author_id + "/polls", null);
     }.bind(this));
   },
